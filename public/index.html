@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BackRSS</title>
+    <script src="./js/vendor/jquery-2.1.1.js"></script>
+    <script src="./js/vendor/json2.js"></script>
+    <script src="./js/vendor/underscore.js"></script>
+    <script src="./js/vendor/backbone.js"></script>
+    <script src="./js/vendor/backbone.marionette.js"></script>
+    <script src="./js/app.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  </head>
+  <body>
+    <script type="text/template" id="site-item-template">
+      <a href="#feeds/<%= _id %>"><%= title %>&nbsp;(<%= count %>)</a>
+    </script>
+
+    <script type="text/template" id="feed-item-template">
+      <a href="<%= link %>" target="_blank"><%= title %></a>
+    </script>
+
+    <script type="text/template" id="sites-template">
+      <ul class="nav">
+        <li><a href="#feeds">All&nbsp;(<%= count %>)</a></li>
+      </ul>
+    </script>
+
+    <script type="text/template" id="add-site-template">
+      <input type="text" id="title">
+      <input type="text" id="url">
+      <input type="submit" id="btnAddSite" value="Add Site">
+    </script>
+
+    <script type="text/template" id="no-feeds-template">
+      <p>
+        No unreaded feeds
+      </p>
+    </script>
+
+    <script type="text/template" id="feeds-template">
+      <a href="#marks/<%= category_id %>" class="btn btn-default" id="mark-readed">Mark all as readed</a>
+      <ul></ul>
+    </script>
+
+    <script id="layout-view-template" type="text/template">
+      <div class="row">
+        <div class="col-md-2">
+          <a href="#add-site" class="btn btn-default">Add Site</a>
+          <div id="menu"></div>
+        </div>
+        <div class="col-md-10" id="content"></div>
+      </div>
+    </script>
+
+    <div id="main"></div>
+  </body>
+</html>
