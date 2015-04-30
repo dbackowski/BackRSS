@@ -147,7 +147,7 @@ app.get('/feeds/:category_id', function (req, res) {
   });
 });
 
-app.post('/feeds/:id', function (req, res) {
+app.post('/feeds/:category_id?', function (req, res) {
   db.feeds.update({ _id: req.body._id }, { $set: { seen: true } }, {}, function (err, numReplaced) {
     if (err) {
       res.send({ error: err });

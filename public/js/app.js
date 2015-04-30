@@ -67,7 +67,7 @@ $(document).ready(function() {
     className: "nav",
     childView: BackRss.SiteItemView,
 
-    initialize : function () {
+    initialize : function() {
       this.listenTo(this.collection, "reset", this.render);
     },
 
@@ -139,12 +139,12 @@ $(document).ready(function() {
       inputUrl: '#url'
     },
 
-    addSite: function () {
+    addSite: function() {
       if (!this.ui.inputTitle.val() || !this.ui.inputUrl.val()) {
         return false;
       }
 
-      this.collection.create({title: this.ui.inputTitle.val(), url: this.ui.inputUrl.val()}, { wait: true });
+      this.collection.create({title: this.ui.inputTitle.val(), url: this.ui.inputUrl.val()}, { silent: true, wait: true });
       Backbone.history.navigate("feeds", { trigger: true });
     }
   });
