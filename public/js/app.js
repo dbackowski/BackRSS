@@ -94,7 +94,7 @@ $(document).ready(function() {
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
-      'click a#mark-readed': "markReaded"
+      'click button#mark-readed': "markReaded"
     },
 
     initialize: function() {
@@ -108,7 +108,16 @@ $(document).ready(function() {
       });
 
       this.collection.reset();
-      BackRss.sites.trigger('reset');
+      BackRss.sites.fetch().done(function(collection) {
+        BackRss.all_count = 0
+
+        for (var site in collection.data)
+        {
+          BackRss.all_count += collection.data[site].count;
+        }
+
+        BackRss.sites.trigger('reset');
+      });
     },
 
     templateHelpers: function() {
