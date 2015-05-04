@@ -9,7 +9,8 @@
     <script src="./js/vendor/backbone.js"></script>
     <script src="./js/vendor/backbone.marionette.js"></script>
     <script src="./js/app.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css">
   </head>
   <body>
     <script type="text/template" id="site-item-template">
@@ -17,19 +18,27 @@
     </script>
 
     <script type="text/template" id="feed-item-template">
-      <a href="<%= link %>" target="_blank"><%= title %></a>
+      <td>
+        <a href="<%= link %>" target="_blank"><%= title %></a>
+      </td>
     </script>
 
     <script type="text/template" id="sites-template">
-      <ul class="nav">
-        <li><a href="#feeds">All&nbsp;(<%= count %>)</a></li>
-      </ul>
+      <li><a href="#feeds">All&nbsp;(<%= count %>)</a></li>
     </script>
 
     <script type="text/template" id="add-site-template">
-      <input type="text" id="title">
-      <input type="text" id="url">
-      <input type="submit" id="btnAddSite" value="Add Site">
+      <form>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+          <label for="url">RSS Feed URL</label>
+          <input type="text" class="form-control" id="url" placeholder="Enter RSS Feed URL">
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnAddSite">Add Site</button>
+      </form>
     </script>
 
     <script type="text/template" id="no-feeds-template">
@@ -39,17 +48,21 @@
     </script>
 
     <script type="text/template" id="feeds-template">
-      <button class="btn btn-default" id="mark-readed">Mark all as readed</button>
-      <ul></ul>
+      <button class="btn btn-primary btn-block" id="mark-readed">Mark all as readed</button>
+      <p>
+        <table class="table table-condensed"></table>
+      </p>
     </script>
 
     <script id="layout-view-template" type="text/template">
-      <div class="row">
-        <div class="col-md-2">
-          <a href="#add-site" class="btn btn-default">Add Site</a>
-          <div id="menu"></div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2 sidebar">
+            <a href="#add-site" class="btn btn-default btn-block">Add Site</a>
+            <div id="menu"></div>
+          </div>
+          <div class="col-md-10 col-md-offset-2 main" id="content"></div>
         </div>
-        <div class="col-md-10" id="content"></div>
       </div>
     </script>
 

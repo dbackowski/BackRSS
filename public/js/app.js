@@ -64,7 +64,7 @@ $(document).ready(function() {
   BackRss.SitesCollectionView = Backbone.Marionette.CompositeView.extend({
     template: '#sites-template',
     tagName: "ul",
-    className: "nav",
+    className: "nav nav-sidebar",
     childView: BackRss.SiteItemView,
 
     initialize : function() {
@@ -79,7 +79,7 @@ $(document).ready(function() {
   });
 
   BackRss.FeedItemView = Backbone.Marionette.ItemView.extend({
-    tagName: "li",
+    tagName: "tr",
     template: '#feed-item-template'
   });
 
@@ -90,7 +90,7 @@ $(document).ready(function() {
   BackRss.FeedsCollectionView = Backbone.Marionette.CompositeView.extend({
     template: '#feeds-template',
     childView: BackRss.FeedItemView,
-    childViewContainer: "ul",
+    childViewContainer: "table",
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
