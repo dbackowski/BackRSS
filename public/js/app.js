@@ -58,7 +58,14 @@ $(document).ready(function() {
 
   BackRss.SiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "li",
-    template: '#site-item-template'
+    template: '#site-item-template',
+    modelEvents: {
+      'markAsSelected': 'addSelectedClass'
+    },
+
+    addSelectedClass: function() {
+      this.$el.addClass('selected')
+    }
   });
 
   BackRss.SitesCollectionView = Backbone.Marionette.CompositeView.extend({
@@ -176,8 +183,11 @@ $(document).ready(function() {
           collection: feeds
         })
 
+        var site = BackRss.sites.findWhere({_id: category_id})
+
         BackRss.mainLayout.menu.show(sitesListView);
         BackRss.mainLayout.content.show(feedsListView);
+        if(site) { site.trigger('markAsSelected') }
       });
     },
 
