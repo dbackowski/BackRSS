@@ -61,11 +61,21 @@ $(document).ready(function() {
     template: '#site-item-template',
 
     modelEvents: {
-      'markSelected': 'addActiveClass'
+      'markSelected': 'addActiveClass',
+      'markUnselected': 'removeActiveClass',
+      'change': 'fieldsChanged'
+    },
+
+    fieldsChanged: function() {
+      this.render();
     },
 
     addActiveClass: function() {
       this.$el.addClass('active');
+    },
+
+    removeActiveClass: function() {
+      this.$el.removeClass('active');
     }
   });
 
@@ -77,17 +87,6 @@ $(document).ready(function() {
 
     initialize : function() {
       this.listenTo(this.collection, "reset", this.render);
-      this.listenTo(this.collection, "markAllSelected", this.markAllSelected);
-    },
-
-    markAllSelected: function() {
-      this.$el.find('li:first').addClass('active');
-    },
-
-    templateHelpers: function() {
-      return {
-        count: BackRss.all_count
-      }
     }
   });
 
@@ -117,20 +116,20 @@ $(document).ready(function() {
 
     markReaded: function() {
       this.collection.forEach(function(model, index) {
-        model.save({seen: true}, { wait: true });
+        model.save({seen: true});
       });
 
+      var site_id = this.collection.first().get('site_id');
+      var site = BackRss.sites.findWhere({_id: site_id});
+
+      if (site.get('_id'))
+      {
+        var all_site = BackRss.sites.findWhere({_id: null});
+        all_site.set('count', all_site.get('count') - site.get('count'));
+      }
+
+      site.set('count', 0);
       this.collection.reset();
-      BackRss.sites.fetch().done(function(collection) {
-        BackRss.all_count = 0
-
-        for (var site in collection.data)
-        {
-          BackRss.all_count += collection.data[site].count;
-        }
-
-        BackRss.sites.trigger('reset');
-      });
     },
 
     templateHelpers: function() {
@@ -172,33 +171,39 @@ $(document).ready(function() {
 
   var API = {
     feeds: function(category_id) {
-      BackRss.all_count = 0
-      BackRss.sites.fetch().done(function(collection) {
-        for (var site in collection.data)
-        {
-          BackRss.all_count += collection.data[site].count;
-        }
+      if (!BackRss.mainLayout.menu.hasView()) {
+        BackRss.sites.fetch().done(function(collection) {
+          var all_count = 0
 
-        var sitesListView = new BackRss.SitesCollectionView({
-          collection: BackRss.sites,
+          for (var site in collection.data)
+          {
+            all_count += collection.data[site].count;
+          }
+
+          BackRss.sites.add({title: 'All', _id: null, count: all_count}, {at: 0});
+
+          var sitesListView = new BackRss.SitesCollectionView({
+            collection: BackRss.sites,
+          });
+
+          BackRss.mainLayout.menu.show(sitesListView);
         });
+      }
 
-        var feeds = new BackRss.FeedsCollection([], {category_id: category_id});
+      var feeds = new BackRss.FeedsCollection([], {category_id: category_id});
 
+      feeds.fetch().done(function(collection) {
         var feedsListView = new BackRss.FeedsCollectionView({
           collection: feeds
         })
 
-        var site = BackRss.sites.findWhere({_id: category_id});
-
-        BackRss.mainLayout.menu.show(sitesListView);
         BackRss.mainLayout.content.show(feedsListView);
 
-        if (site) {
-          site.trigger('markSelected');
-        } else {
-          BackRss.sites.trigger('markAllSelected');
-        }
+        _(BackRss.sites.models).each(function(site) {
+          site.trigger('markUnselected');
+        });
+
+        BackRss.sites.findWhere({_id: category_id}).trigger('markSelected');
       });
     },
 

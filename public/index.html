@@ -14,7 +14,7 @@
   </head>
   <body>
     <script type="text/template" id="site-item-template">
-      <a href="#feeds/<%= _id %>"><%= title %>&nbsp;(<%= count %>)</a>
+      <a href="<%= '#feeds' + (_id ? '/' + _id : '') %>"><%= title %>&nbsp;(<%= count %>)</a>
     </script>
 
     <script type="text/template" id="feed-item-template">
@@ -24,7 +24,6 @@
     </script>
 
     <script type="text/template" id="sites-template">
-      <li><a href="#feeds">All&nbsp;(<%= count %>)</a></li>
     </script>
 
     <script type="text/template" id="add-site-template">
@@ -42,13 +41,11 @@
     </script>
 
     <script type="text/template" id="no-feeds-template">
-      <p>
-        No unreaded feeds
-      </p>
+      <div class="alert alert-success" role="alert">No unread feeds</div>
     </script>
 
     <script type="text/template" id="feeds-template">
-      <button class="btn btn-primary btn-block" id="mark-readed">Mark all as readed</button>
+      <button class="btn btn-primary btn-block" id="mark-readed">Mark all as read</button>
       <p>
         <table class="table table-condensed"></table>
       </p>
