@@ -58,7 +58,15 @@ $(document).ready(function() {
 
   BackRss.SiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "li",
-    template: '#site-item-template'
+    template: '#site-item-template',
+
+    modelEvents: {
+      'markSelected': 'addActiveClass'
+    },
+
+    addActiveClass: function() {
+      this.$el.addClass('active');
+    }
   });
 
   BackRss.SitesCollectionView = Backbone.Marionette.CompositeView.extend({
@@ -69,6 +77,11 @@ $(document).ready(function() {
 
     initialize : function() {
       this.listenTo(this.collection, "reset", this.render);
+      this.listenTo(this.collection, "markAllSelected", this.markAllSelected);
+    },
+
+    markAllSelected: function() {
+      this.$el.find('li:first').addClass('active');
     },
 
     templateHelpers: function() {
@@ -176,8 +189,16 @@ $(document).ready(function() {
           collection: feeds
         })
 
+        var site = BackRss.sites.findWhere({_id: category_id});
+
         BackRss.mainLayout.menu.show(sitesListView);
         BackRss.mainLayout.content.show(feedsListView);
+
+        if (site) {
+          site.trigger('markSelected');
+        } else {
+          BackRss.sites.trigger('markAllSelected');
+        }
       });
     },
 
