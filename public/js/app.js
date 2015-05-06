@@ -80,8 +80,7 @@ $(document).ready(function() {
     }
   });
 
-  BackRss.SitesCollectionView = Backbone.Marionette.CompositeView.extend({
-    template: '#sites-template',
+  BackRss.SitesCollectionView = Backbone.Marionette.CollectionView.extend({
     tagName: "ul",
     className: "nav nav-sidebar",
     childView: BackRss.SiteItemView,
