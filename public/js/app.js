@@ -19,7 +19,8 @@ $(document).ready(function() {
 
     defaults: {
       title: '',
-      url: ''
+      url: '',
+      count: 0
     }
   });
 
@@ -109,9 +110,9 @@ $(document).ready(function() {
       'click button#mark-readed': "markReaded"
     },
 
-    initialize: function() {
+    initialize: function(options) {
       this.listenTo(this.collection, "reset", this.render);
-      this.collection.fetch();
+      this.category_id = options.category_id;
     },
 
     markReaded: function() {
@@ -119,16 +120,18 @@ $(document).ready(function() {
         model.save({seen: true});
       });
 
-      var site_id = this.collection.first().get('site_id');
-      var site = BackRss.sites.findWhere({_id: site_id});
-
-      if (site.get('_id'))
+      if (!this.category_id)
       {
+        _(BackRss.sites.models).each(function(site) {
+          site.set('count', 0);
+        });
+      } else {
+        var site = BackRss.sites.findWhere({_id: this.category_id});
         var all_site = BackRss.sites.findWhere({_id: null});
         all_site.set('count', all_site.get('count') - site.get('count'));
+        site.set('count', 0);
       }
 
-      site.set('count', 0);
       this.collection.reset();
     },
 
@@ -156,7 +159,16 @@ $(document).ready(function() {
         return false;
       }
 
-      this.collection.create({title: this.ui.inputTitle.val(), url: this.ui.inputUrl.val()}, { silent: true, wait: true });
+      var model = new BackRss.Site();
+      var that = this;
+
+      model.save({title: this.ui.inputTitle.val(), url: this.ui.inputUrl.val()}, {
+        success: function(model, resp) {
+          that.collection.add(resp.data);
+          that.collection.trigger('reset');
+        }, silent: true, wait: true
+      });
+
       Backbone.history.navigate("feeds", { trigger: true });
     }
   });
@@ -188,13 +200,28 @@ $(document).ready(function() {
 
           BackRss.mainLayout.menu.show(sitesListView);
         });
+      } else {
+        var sites = new BackRss.SitesCollection();
+
+        sites.fetch().done(function(collection) {
+          var all_count = 0
+
+          for (var site in collection.data)
+          {
+            all_count += collection.data[site].count;
+            BackRss.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
+          }
+
+          BackRss.sites.findWhere({_id: null}).set('count', all_count);
+        });
       }
 
       var feeds = new BackRss.FeedsCollection([], {category_id: category_id});
 
       feeds.fetch().done(function(collection) {
         var feedsListView = new BackRss.FeedsCollectionView({
-          collection: feeds
+          collection: feeds,
+          category_id: category_id
         })
 
         BackRss.mainLayout.content.show(feedsListView);
