@@ -159,7 +159,9 @@ $(document).ready(function() {
       inputUrl: '#url'
     },
 
-    addSite: function() {
+    addSite: function(e) {
+      e.preventDefault();
+
       if (!this.ui.inputTitle.val() || !this.ui.inputUrl.val()) {
         return false;
       }
