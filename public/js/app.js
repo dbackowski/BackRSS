@@ -115,23 +115,29 @@ $(document).ready(function() {
     },
 
     markAsRead: function() {
-      this.collection.forEach(function(model, index) {
-        model.save({seen: true});
+      var that = this;
+
+      bootbox.confirm("Are you sure?", function(result) {
+        if (result) {
+          that.collection.forEach(function(model, index) {
+            model.save({seen: true});
+          });
+
+          if (!that.category_id)
+          {
+            _(BackRss.sites.models).each(function(site) {
+              site.set('count', 0);
+            });
+          } else {
+            var site = BackRss.sites.findWhere({_id: that.category_id});
+            var all_site = BackRss.sites.findWhere({_id: null});
+            all_site.set('count', all_site.get('count') - site.get('count'));
+            site.set('count', 0);
+          }
+
+          that.collection.reset();
+        }
       });
-
-      if (!this.category_id)
-      {
-        _(BackRss.sites.models).each(function(site) {
-          site.set('count', 0);
-        });
-      } else {
-        var site = BackRss.sites.findWhere({_id: this.category_id});
-        var all_site = BackRss.sites.findWhere({_id: null});
-        all_site.set('count', all_site.get('count') - site.get('count'));
-        site.set('count', 0);
-      }
-
-      this.collection.reset();
     },
 
     templateHelpers: function() {
