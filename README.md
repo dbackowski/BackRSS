@@ -1,3 +1,3 @@
 # BackRSS
 
-Very simple RSS readed.
+Very simple RSS reader.

@@ -106,7 +106,7 @@ $(document).ready(function() {
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
-      'click button#mark-readed': "markReaded"
+      'click button#mark-read': "markAsRead"
     },
 
     initialize: function(options) {
@@ -114,7 +114,7 @@ $(document).ready(function() {
       this.category_id = options.category_id;
     },
 
-    markReaded: function() {
+    markAsRead: function() {
       this.collection.forEach(function(model, index) {
         model.save({seen: true});
       });
