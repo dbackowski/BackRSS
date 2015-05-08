@@ -180,49 +180,8 @@ $(document).ready(function() {
     }
   });
 
-  BackRss.Router = Marionette.AppRouter.extend({
-    appRoutes: {
-      'feeds': 'feeds',
-      'feeds/:category_id': 'feeds',
-      'add-site': 'addSite'
-    }
-  });
-
-  var API = {
-    feeds: function(category_id) {
-      if (!BackRss.mainLayout.menu.hasView()) {
-        BackRss.sites.fetch().done(function(collection) {
-          var all_count = 0
-
-          for (var site in collection.data)
-          {
-            all_count += collection.data[site].count;
-          }
-
-          BackRss.sites.add({title: 'All', _id: null, count: all_count}, {at: 0});
-
-          var sitesListView = new BackRss.SitesCollectionView({
-            collection: BackRss.sites,
-          });
-
-          BackRss.mainLayout.menu.show(sitesListView);
-        });
-      } else {
-        var sites = new BackRss.SitesCollection();
-
-        sites.fetch().done(function(collection) {
-          var all_count = 0
-
-          for (var site in collection.data)
-          {
-            all_count += collection.data[site].count;
-            BackRss.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
-          }
-
-          BackRss.sites.findWhere({_id: null}).set('count', all_count);
-        });
-      }
-
+  BackRss.MainController = Marionette.Controller.extend({
+    getFeeds: function(category_id) {
       var feeds = new BackRss.FeedsCollection([], {category_id: category_id});
 
       feeds.fetch().done(function(collection) {
@@ -241,18 +200,71 @@ $(document).ready(function() {
       });
     },
 
+    feeds: function(category_id) {
+      var that = this;
+
+      if (!BackRss.mainLayout.menu.hasView()) {
+        BackRss.sites.fetch().done(function(collection) {
+          var all_count = 0
+
+          for (var site in collection.data)
+          {
+            all_count += collection.data[site].count;
+          }
+
+          BackRss.sites.add({title: 'All', _id: null, count: all_count}, {at: 0});
+
+          var sitesListView = new BackRss.SitesCollectionView({
+            collection: BackRss.sites,
+          });
+
+          BackRss.mainLayout.menu.show(sitesListView);
+          that.getFeeds(category_id);
+        });
+      } else {
+        var sites = new BackRss.SitesCollection();
+
+        sites.fetch().done(function(collection) {
+          var all_count = 0
+
+          for (var site in collection.data)
+          {
+            all_count += collection.data[site].count;
+            BackRss.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
+          }
+
+          BackRss.sites.findWhere({_id: null}).set('count', all_count);
+          that.getFeeds(category_id);
+        });
+      }
+    },
+
     addSite: function() {
       var addSiteView = new BackRss.AddSiteView({
         collection: BackRss.sites
       });
 
       BackRss.mainLayout.content.show(addSiteView);
+    },
+
+    notFound: function() {
+      Backbone.history.navigate("feeds", { trigger: true });
     }
-  };
+  });
+
+  BackRss.Router = Marionette.AppRouter.extend({
+    appRoutes: {
+      'feeds': 'feeds',
+      'feeds/:category_id': 'feeds',
+      'add-site': 'addSite',
+      '*notFound': 'notFound'
+    }
+  });
 
   BackRss.addInitializer(function(){
+    var mainController = new BackRss.MainController();
     new BackRss.Router({
-      controller: API
+      controller: mainController
     });
   });
 
@@ -267,11 +279,6 @@ $(document).ready(function() {
     if (Backbone.history)
     {
       Backbone.history.start();
-
-      if (Backbone.history.fragment === "")
-      {
-        Backbone.history.navigate("feeds", { trigger: true });
-      }
     }
   });
 
