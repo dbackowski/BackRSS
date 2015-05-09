@@ -143,7 +143,7 @@ $(document).ready(function() {
     templateHelpers: function() {
       return {
         category_id: this.collection.category_id
-      }
+      };
     }
   });
 
@@ -188,7 +188,7 @@ $(document).ready(function() {
         var feedsListView = new BackRss.FeedsCollectionView({
           collection: feeds,
           category_id: category_id
-        })
+        });
 
         BackRss.mainLayout.content.show(feedsListView);
 
@@ -205,7 +205,7 @@ $(document).ready(function() {
 
       if (!BackRss.mainLayout.menu.hasView()) {
         BackRss.sites.fetch().done(function(collection) {
-          var all_count = 0
+          var all_count = 0;
 
           for (var site in collection.data)
           {
@@ -225,7 +225,7 @@ $(document).ready(function() {
         var sites = new BackRss.SitesCollection();
 
         sites.fetch().done(function(collection) {
-          var all_count = 0
+          var all_count = 0;
 
           for (var site in collection.data)
           {
