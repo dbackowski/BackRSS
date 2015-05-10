@@ -1,6 +1,6 @@
-"use strict";
-
 $(document).ready(function() {
+  "use strict";
+
   var BackRss = new Marionette.Application();
 
   BackRss.AppLayoutView = Marionette.LayoutView.extend({
@@ -41,15 +41,15 @@ $(document).ready(function() {
     model: BackRss.Feed,
 
     url: function() {
-      if (this.category_id) {
-        return 'http://localhost:8080/feeds/' + this.category_id;
+      if (this.siteID) {
+        return 'http://localhost:8080/feeds/' + this.siteID;
       } else {
         return 'http://localhost:8080/feeds';
       }
     },
 
     initialize: function(models, options) {
-      this.category_id = options.category_id;
+      this.siteID = options.siteID;
     },
 
     parse: function(response) {
@@ -111,7 +111,7 @@ $(document).ready(function() {
 
     initialize: function(options) {
       this.listenTo(this.collection, "reset", this.render);
-      this.category_id = options.category_id;
+      this.siteID = options.siteID;
     },
 
     markAsRead: function() {
@@ -119,19 +119,19 @@ $(document).ready(function() {
 
       bootbox.confirm("Are you sure?", function(result) {
         if (result) {
-          that.collection.forEach(function(model, index) {
+          that.collection.forEach(function(model) {
             model.save({seen: true});
           });
 
-          if (!that.category_id)
+          if (!that.siteID)
           {
             _(BackRss.sites.models).each(function(site) {
               site.set('count', 0);
             });
           } else {
-            var site = BackRss.sites.findWhere({_id: that.category_id});
-            var all_site = BackRss.sites.findWhere({_id: null});
-            all_site.set('count', all_site.get('count') - site.get('count'));
+            var site = BackRss.sites.findWhere({_id: that.siteID});
+            var allSites = BackRss.sites.findWhere({_id: null});
+            allSites.set('count', allSites.get('count') - site.get('count'));
             site.set('count', 0);
           }
 
@@ -142,7 +142,7 @@ $(document).ready(function() {
 
     templateHelpers: function() {
       return {
-        category_id: this.collection.category_id
+        siteID: this.collection.siteID
       };
     }
   });
@@ -181,13 +181,13 @@ $(document).ready(function() {
   });
 
   BackRss.MainController = Marionette.Controller.extend({
-    getFeeds: function(category_id) {
-      var feeds = new BackRss.FeedsCollection([], {category_id: category_id});
+    getFeeds: function(siteID) {
+      var feeds = new BackRss.FeedsCollection([], {siteID: siteID});
 
-      feeds.fetch().done(function(collection) {
+      feeds.fetch().done(function() {
         var feedsListView = new BackRss.FeedsCollectionView({
           collection: feeds,
-          category_id: category_id
+          siteID: siteID
         });
 
         BackRss.mainLayout.content.show(feedsListView);
@@ -196,45 +196,45 @@ $(document).ready(function() {
           site.trigger('markUnselected');
         });
 
-        BackRss.sites.findWhere({_id: category_id}).trigger('markSelected');
+        BackRss.sites.findWhere({_id: siteID}).trigger('markSelected');
       });
     },
 
-    feeds: function(category_id) {
+    feeds: function(siteID) {
       var that = this;
 
       if (!BackRss.mainLayout.menu.hasView()) {
         BackRss.sites.fetch().done(function(collection) {
-          var all_count = 0;
+          var allCount = 0;
 
           for (var site in collection.data)
           {
-            all_count += collection.data[site].count;
+            allCount += collection.data[site].count;
           }
 
-          BackRss.sites.add({title: 'All', _id: null, count: all_count}, {at: 0});
+          BackRss.sites.add({title: 'All', _id: null, count: allCount}, {at: 0});
 
           var sitesListView = new BackRss.SitesCollectionView({
             collection: BackRss.sites,
           });
 
           BackRss.mainLayout.menu.show(sitesListView);
-          that.getFeeds(category_id);
+          that.getFeeds(siteID);
         });
       } else {
         var sites = new BackRss.SitesCollection();
 
         sites.fetch().done(function(collection) {
-          var all_count = 0;
+          var allCount = 0;
 
           for (var site in collection.data)
           {
-            all_count += collection.data[site].count;
+            allCount += collection.data[site].count;
             BackRss.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
           }
 
-          BackRss.sites.findWhere({_id: null}).set('count', all_count);
-          that.getFeeds(category_id);
+          BackRss.sites.findWhere({_id: null}).set('count', allCount);
+          that.getFeeds(siteID);
         });
       }
     },
@@ -255,7 +255,7 @@ $(document).ready(function() {
   BackRss.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'feeds': 'feeds',
-      'feeds/:category_id': 'feeds',
+      'feeds/:siteID': 'feeds',
       'add-site': 'addSite',
       '*notFound': 'notFound'
     }
