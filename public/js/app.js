@@ -124,7 +124,7 @@ $(document).ready(function() {
 
           if (!that.siteID)
           {
-            _(that.sitesCollection.sites.models).each(function(site) {
+            _(that.sitesCollection.models).each(function(site) {
               site.set('count', 0);
             });
           } else {
