@@ -33,8 +33,6 @@ $(document).ready(function() {
     }
   });
 
-  BackRss.sites = new BackRss.SitesCollection();
-
   BackRss.Feed = Backbone.Model.extend({});
 
   BackRss.FeedsCollection = Backbone.Collection.extend({
@@ -112,6 +110,7 @@ $(document).ready(function() {
     initialize: function(options) {
       this.listenTo(this.collection, "reset", this.render);
       this.siteID = options.siteID;
+      this.sitesCollection = options.sitesCollection;
     },
 
     markAsRead: function() {
@@ -125,12 +124,12 @@ $(document).ready(function() {
 
           if (!that.siteID)
           {
-            _(BackRss.sites.models).each(function(site) {
+            _(that.sitesCollection.sites.models).each(function(site) {
               site.set('count', 0);
             });
           } else {
-            var site = BackRss.sites.findWhere({_id: that.siteID});
-            var allSites = BackRss.sites.findWhere({_id: null});
+            var site = that.sitesCollection.findWhere({_id: that.siteID});
+            var allSites = that.sitesCollection.findWhere({_id: null});
             allSites.set('count', allSites.get('count') - site.get('count'));
             site.set('count', 0);
           }
@@ -181,22 +180,28 @@ $(document).ready(function() {
   });
 
   BackRss.MainController = Marionette.Controller.extend({
+    initialize: function() {
+      this.sites = new BackRss.SitesCollection();
+    },
+
     getFeeds: function(siteID) {
       var feeds = new BackRss.FeedsCollection([], {siteID: siteID});
+      var that = this;
 
       feeds.fetch().done(function() {
         var feedsListView = new BackRss.FeedsCollectionView({
           collection: feeds,
-          siteID: siteID
+          siteID: siteID,
+          sitesCollection: that.sites
         });
 
         BackRss.mainLayout.content.show(feedsListView);
 
-        _(BackRss.sites.models).each(function(site) {
+        _(that.sites.models).each(function(site) {
           site.trigger('markUnselected');
         });
 
-        BackRss.sites.findWhere({_id: siteID}).trigger('markSelected');
+        that.sites.findWhere({_id: siteID}).trigger('markSelected');
       });
     },
 
@@ -204,7 +209,7 @@ $(document).ready(function() {
       var that = this;
 
       if (!BackRss.mainLayout.menu.hasView()) {
-        BackRss.sites.fetch().done(function(collection) {
+        this.sites.fetch().done(function(collection) {
           var allCount = 0;
 
           for (var site in collection.data)
@@ -212,10 +217,10 @@ $(document).ready(function() {
             allCount += collection.data[site].count;
           }
 
-          BackRss.sites.add({title: 'All', _id: null, count: allCount}, {at: 0});
+          that.sites.add({title: 'All', _id: null, count: allCount}, {at: 0});
 
           var sitesListView = new BackRss.SitesCollectionView({
-            collection: BackRss.sites,
+            collection: that.sites,
           });
 
           BackRss.mainLayout.menu.show(sitesListView);
@@ -230,10 +235,10 @@ $(document).ready(function() {
           for (var site in collection.data)
           {
             allCount += collection.data[site].count;
-            BackRss.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
+            that.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
           }
 
-          BackRss.sites.findWhere({_id: null}).set('count', allCount);
+          that.sites.findWhere({_id: null}).set('count', allCount);
           that.getFeeds(siteID);
         });
       }
@@ -241,7 +246,7 @@ $(document).ready(function() {
 
     addSite: function() {
       var addSiteView = new BackRss.AddSiteView({
-        collection: BackRss.sites
+        collection: this.sites
       });
 
       BackRss.mainLayout.content.show(addSiteView);
