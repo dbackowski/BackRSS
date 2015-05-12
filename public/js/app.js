@@ -141,7 +141,8 @@ $(document).ready(function() {
 
     templateHelpers: function() {
       return {
-        siteID: this.collection.siteID
+        siteID: this.collection.siteID,
+        feedsCount: this.collection.length
       };
     }
   });
@@ -172,16 +173,21 @@ $(document).ready(function() {
         success: function(model, resp) {
           that.collection.add(resp.data);
           that.collection.trigger('reset');
+          Backbone.history.navigate("feeds", { trigger: true });
+        }, error: function() {
+          BackRss.vent.trigger("error", "Error occured");
         }, silent: true, wait: true
       });
-
-      Backbone.history.navigate("feeds", { trigger: true });
     }
   });
 
   BackRss.MainController = Marionette.Controller.extend({
     initialize: function() {
       this.sites = new BackRss.SitesCollection();
+    },
+
+    onError: function() {
+      BackRss.vent.trigger("error", "Error occured");
     },
 
     getFeeds: function(siteID) {
@@ -209,15 +215,15 @@ $(document).ready(function() {
       var that = this;
 
       if (!BackRss.mainLayout.menu.hasView()) {
-        this.sites.fetch().done(function(collection) {
+        this.sites.fetch({ success: function(collection) {
           var allCount = 0;
 
-          for (var site in collection.data)
+          for (var site in collection.models)
           {
-            allCount += collection.data[site].count;
+            allCount += collection.models[site].get('count');
           }
 
-          that.sites.add({title: 'All', _id: null, count: allCount}, {at: 0});
+          that.sites.add({ title: 'All', _id: null, count: allCount }, { at: 0 });
 
           var sitesListView = new BackRss.SitesCollectionView({
             collection: that.sites,
@@ -225,22 +231,22 @@ $(document).ready(function() {
 
           BackRss.mainLayout.menu.show(sitesListView);
           that.getFeeds(siteID);
-        });
+        }, error: that.onError });
       } else {
         var sites = new BackRss.SitesCollection();
 
-        sites.fetch().done(function(collection) {
+        sites.fetch({ success: function(collection) {
           var allCount = 0;
 
-          for (var site in collection.data)
+          for (var site in collection.models)
           {
-            allCount += collection.data[site].count;
-            that.sites.findWhere({_id: collection.data[site]._id}).set('count', collection.data[site].count);
+            allCount += collection.models[site].get('count');
+            that.sites.findWhere({_id: collection.models[site].get('_id')}).set('count', collection.models[site].get('count'));
           }
 
           that.sites.findWhere({_id: null}).set('count', allCount);
           that.getFeeds(siteID);
-        });
+        }, error: that.onError });
       }
     },
 
@@ -276,6 +282,10 @@ $(document).ready(function() {
   BackRss.addRegions({
     menuRegion: "#menu",
     mainRegion: "#main"
+  });
+
+  BackRss.vent.on("error", function(message) {
+    alert(message);
   });
 
   BackRss.on('start', function(){
