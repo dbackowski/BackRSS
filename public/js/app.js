@@ -285,7 +285,9 @@ $(document).ready(function() {
   });
 
   BackRss.vent.on("error", function(message) {
-    alert(message);
+    bootbox.alert(message, function() {
+      Backbone.history.navigate("/", { trigger: true });
+    });
   });
 
   BackRss.on('start', function(){
