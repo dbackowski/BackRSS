@@ -104,7 +104,8 @@ $(document).ready(function() {
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
-      'click button#mark-read': "markAsRead"
+      'click button#mark-read': "markAsRead",
+      'click button#refresh': "refresh"
     },
 
     initialize: function(options) {
@@ -137,6 +138,10 @@ $(document).ready(function() {
           that.collection.reset();
         }
       });
+    },
+
+    refresh: function() {
+      Backbone.history.loadUrl();
     },
 
     templateHelpers: function() {

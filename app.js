@@ -127,18 +127,15 @@ app.post('/sites', function (req, res) {
   });
 });
 
-app.get('/feeds', function (req, res) {
-  db.feeds.find({ seen: false }, function (err, docs) {
-    if (err) {
-      res.send({ error: err });
-    } else {
-      res.send({ data: docs });
-    }
-  });
-});
+app.get('/feeds/:category_id?', function (req, res) {
+  var queryParams = { seen: false };
 
-app.get('/feeds/:category_id', function (req, res) {
-  db.feeds.find({ seen: false, site_id: req.params.category_id }, function (err, docs) {
+  if (req.params.category_id)
+  {
+    queryParams['site_id'] = req.params.category_id;
+  }
+
+  db.feeds.find(queryParams).sort({ pubDate: -1 }).exec(function (err, docs) {
     if (err) {
       res.send({ error: err });
     } else {

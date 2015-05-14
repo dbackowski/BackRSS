@@ -10,6 +10,7 @@
     <script src="./js/vendor/backbone.marionette.js"></script>
     <script src="./js/vendor/bootstrap.min.js"></script>
     <script src="./js/vendor/bootbox.min.js"></script>
+    <script src="./js/vendor/moment.min.js"></script>
     <script src="./js/app.js"></script>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/main.css">
@@ -22,6 +23,9 @@
     <script type="text/template" id="feed-item-template">
       <td>
         <a href="<%= link %>" target="_blank"><%= title %></a>
+      </td>
+      <td class="text-right">
+        <%= moment(pubDate).format("YYYY-MM-DD HH:mm") %>
       </td>
     </script>
 
@@ -40,7 +44,7 @@
     </script>
 
     <script type="text/template" id="no-feeds-template">
-      <div class="alert alert-success" role="alert">No unread feeds</div>
+      <button class="btn btn-success btn-block" id="refresh">No unread feeds, click to refresh.</button>
     </script>
 
     <script type="text/template" id="feeds-template">
@@ -48,7 +52,7 @@
         <button class="btn btn-primary btn-block" id="mark-read">Mark all as read</button>
       <% } %>
       <p>
-        <table class="table table-condensed"></table>
+        <table class="table table-condensed table-hover"></table>
       </p>
     </script>
 
