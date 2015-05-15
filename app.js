@@ -127,6 +127,27 @@ app.post('/sites', function (req, res) {
   });
 });
 
+app.delete('/sites/:id', function (req, res) {
+  var deleteSite = function(callback) {
+    db.sites.remove({ _id: req.params.id }, callback);
+  }
+
+  var deleteFeedsForSite = function(arg1, callback) {
+    db.feeds.remove({ site_id: req.params.id }, callback);
+  }
+
+  async.waterfall([
+    deleteSite.bind(this),
+    deleteFeedsForSite.bind(this)
+  ], function(err, result){
+    if (err) {
+      res.send({ error: err });
+    } else {
+      res.send({ data: result });
+    }
+  })
+});
+
 app.get('/feeds/:category_id?', function (req, res) {
   var queryParams = { seen: false };
 

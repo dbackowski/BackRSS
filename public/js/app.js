@@ -16,6 +16,7 @@ $(document).ready(function() {
 
   BackRss.Site = Backbone.Model.extend({
     urlRoot: 'http://localhost:8080/sites',
+    idAttribute: '_id',
 
     defaults: {
       title: '',
@@ -152,7 +153,42 @@ $(document).ready(function() {
     }
   });
 
-  BackRss.AddSiteView = Backbone.Marionette.ItemView.extend({
+  BackRss.ManageSiteItemView = Backbone.Marionette.ItemView.extend({
+    tagName: "tr",
+    template: '#manage-sites-item-template'
+  });
+
+  BackRss.ManageSitesView = Backbone.Marionette.CompositeView.extend({
+    template: '#manage-sites-template',
+
+    childView: BackRss.ManageSiteItemView,
+    childViewContainer: "table",
+
+    events: {
+      'click .btnDeleteSite': "deleteSite"
+    },
+
+    filter: function (child, index, collection) {
+      return child.get('_id') != undefined;
+    },
+
+    deleteSite: function(e) {
+      e.preventDefault();
+
+      var siteID = $(e.currentTarget).data("id");
+      var that = this;
+
+      bootbox.confirm("Are you sure?", function(result) {
+        if (result) {
+          var site = that.collection.findWhere({ _id: siteID });
+
+          site.destroy({ wait: true });
+        }
+      });
+    }
+  });
+
+  BackRss.ManageSitesAddSiteView = Backbone.Marionette.ItemView.extend({
     template: "#add-site-template",
 
     events: {
@@ -178,7 +214,7 @@ $(document).ready(function() {
         success: function(model, resp) {
           that.collection.add(resp.data);
           that.collection.trigger('reset');
-          Backbone.history.navigate("feeds", { trigger: true });
+          Backbone.history.navigate("manage-sites", { trigger: true });
         }, error: function() {
           BackRss.vent.trigger("error", "Error occured");
         }, silent: true, wait: true
@@ -195,6 +231,12 @@ $(document).ready(function() {
       BackRss.vent.trigger("error", "Error occured");
     },
 
+    unmarkSelectedSite: function() {
+      _(this.sites.models).each(function(site) {
+        site.trigger('markUnselected');
+      });
+    },
+
     getFeeds: function(siteID) {
       var feeds = new BackRss.FeedsCollection([], {siteID: siteID});
       var that = this;
@@ -208,10 +250,7 @@ $(document).ready(function() {
 
         BackRss.mainLayout.content.show(feedsListView);
 
-        _(that.sites.models).each(function(site) {
-          site.trigger('markUnselected');
-        });
-
+        that.unmarkSelectedSite();
         that.sites.findWhere({_id: siteID}).trigger('markSelected');
       });
     },
@@ -255,8 +294,18 @@ $(document).ready(function() {
       }
     },
 
+    manageSites: function() {
+      this.unmarkSelectedSite();
+
+      var sitesView = new BackRss.ManageSitesView({
+        collection: this.sites
+      });
+
+      BackRss.mainLayout.content.show(sitesView);
+    },
+
     addSite: function() {
-      var addSiteView = new BackRss.AddSiteView({
+      var addSiteView = new BackRss.ManageSitesAddSiteView({
         collection: this.sites
       });
 
@@ -272,6 +321,7 @@ $(document).ready(function() {
     appRoutes: {
       'feeds': 'feeds',
       'feeds/:siteID': 'feeds',
+      'manage-sites': 'manageSites',
       'add-site': 'addSite',
       '*notFound': 'notFound'
     }

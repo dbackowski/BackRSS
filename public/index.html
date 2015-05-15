@@ -3,11 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>BackRSS</title>
-    <script src="./js/vendor/jquery-2.1.1.js"></script>
-    <script src="./js/vendor/json2.js"></script>
-    <script src="./js/vendor/underscore.js"></script>
-    <script src="./js/vendor/backbone.js"></script>
-    <script src="./js/vendor/backbone.marionette.js"></script>
+    <script src="./js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="./js/vendor/underscore-min.js"></script>
+    <script src="./js/vendor/backbone-min.js"></script>
+    <script src="./js/vendor/backbone.marionette.min.js"></script>
     <script src="./js/vendor/bootstrap.min.js"></script>
     <script src="./js/vendor/bootbox.min.js"></script>
     <script src="./js/vendor/moment.min.js"></script>
@@ -56,12 +55,31 @@
       </p>
     </script>
 
+    <script type="text/template" id="manage-sites-item-template">
+      <td>
+        <%= title %>
+      </td>
+      <td>
+        <%= url %>
+      </td>
+      <td class="text-right">
+        <a href="#" data-id="<%= _id %>" class="btnDeleteSite"><i class="glyphicon glyphicon-remove"></i></a>
+      </td>
+    </script>
+
+    <script type="text/template" id="manage-sites-template">
+      <p>
+        <a href="#add-site" class="btn btn-default btn-block">Add Site</a>
+      </p>
+      <table class="table table-condensed table-hover"></table>
+    </script>
+
     <script id="layout-view-template" type="text/template">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-2 sidebar">
             <p>
-              <a href="#add-site" class="btn btn-default btn-block">Add Site</a>
+              <a href="#manage-sites" class="btn btn-default btn-block">Manage Sites</a>
             </p>
             <div id="menu"></div>
           </div>
