@@ -200,6 +200,10 @@ $(document).ready(function() {
       inputUrl: '#url'
     },
 
+    onShow: function() {
+      this.ui.inputTitle.focus();
+    },
+
     addSite: function(e) {
       e.preventDefault();
 
