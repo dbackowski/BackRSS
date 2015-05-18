@@ -283,6 +283,51 @@ $(document).ready(function() {
       });
     },
 
+    getSites: function(callback) {
+      var that = this;
+
+      if (!BackRss.mainLayout.menu.hasView()) {
+        this.sites.fetch({ success: function(collection) {
+          var allCount = 0;
+
+          for (var site in collection.models)
+          {
+            allCount += collection.models[site].get('count');
+          }
+
+          that.sites.add({ title: 'All', _id: null, count: allCount }, { at: 0 });
+
+          var sitesListView = new BackRss.SitesCollectionView({
+            collection: that.sites,
+          });
+
+          BackRss.mainLayout.menu.show(sitesListView);
+
+          if (typeof callback === "function") {
+            callback.call(that);
+          }
+        }, error: that.onError });
+      } else {
+        var sites = new BackRss.SitesCollection();
+
+        sites.fetch({ success: function(collection) {
+          var allCount = 0;
+
+          for (var site in collection.models)
+          {
+            allCount += collection.models[site].get('count');
+            that.sites.findWhere({_id: collection.models[site].get('_id')}).set('count', collection.models[site].get('count'));
+          }
+
+          that.sites.findWhere({_id: null}).set('count', allCount);
+
+          if (typeof callback === "function") {
+            callback.call(that);
+          }
+        }, error: that.onError });
+      }
+    },
+
     getFeeds: function(siteID) {
       var feeds = new BackRss.FeedsCollection([], {siteID: siteID});
       var that = this;
@@ -302,60 +347,31 @@ $(document).ready(function() {
     },
 
     feeds: function(siteID) {
-      var that = this;
-
-      if (!BackRss.mainLayout.menu.hasView()) {
-        this.sites.fetch({ success: function(collection) {
-          var allCount = 0;
-
-          for (var site in collection.models)
-          {
-            allCount += collection.models[site].get('count');
-          }
-
-          that.sites.add({ title: 'All', _id: null, count: allCount }, { at: 0 });
-
-          var sitesListView = new BackRss.SitesCollectionView({
-            collection: that.sites,
-          });
-
-          BackRss.mainLayout.menu.show(sitesListView);
-          that.getFeeds(siteID);
-        }, error: that.onError });
-      } else {
-        var sites = new BackRss.SitesCollection();
-
-        sites.fetch({ success: function(collection) {
-          var allCount = 0;
-
-          for (var site in collection.models)
-          {
-            allCount += collection.models[site].get('count');
-            that.sites.findWhere({_id: collection.models[site].get('_id')}).set('count', collection.models[site].get('count'));
-          }
-
-          that.sites.findWhere({_id: null}).set('count', allCount);
-          that.getFeeds(siteID);
-        }, error: that.onError });
-      }
+      this.getSites(function() {
+        this.getFeeds(siteID);
+      });
     },
 
     manageSites: function() {
-      this.unmarkSelectedSite();
+      this.getSites(function() {
+        this.unmarkSelectedSite();
 
-      var sitesView = new BackRss.ManageSitesView({
-        collection: this.sites
+        var sitesView = new BackRss.ManageSitesView({
+          collection: this.sites
+        });
+
+        BackRss.mainLayout.content.show(sitesView);
       });
-
-      BackRss.mainLayout.content.show(sitesView);
     },
 
     addSite: function() {
-      var addSiteView = new BackRss.ManageSitesAddSiteView({
-        collection: this.sites
-      });
+      this.getSites(function() {
+        var addSiteView = new BackRss.ManageSitesAddSiteView({
+          collection: this.sites
+        });
 
-      BackRss.mainLayout.content.show(addSiteView);
+        BackRss.mainLayout.content.show(addSiteView);
+      });
     },
 
     notFound: function() {
