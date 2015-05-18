@@ -34,7 +34,10 @@ $(document).ready(function() {
     }
   });
 
-  BackRss.Feed = Backbone.Model.extend({});
+  BackRss.Feed = Backbone.Model.extend({
+    url: 'http://localhost:8080/feeds',
+    idAttribute: '_id'
+  });
 
   BackRss.FeedsCollection = Backbone.Collection.extend({
     model: BackRss.Feed,
@@ -105,8 +108,11 @@ $(document).ready(function() {
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
-      'click button#mark-read': "markAsRead",
-      'click button#refresh': "refresh"
+      'click button#mark-read': "markAllAsRead",
+      'click button#refresh': "refresh",
+      'mouseenter tr': 'showMarkAsRead',
+      'mouseleave tr': 'hideMarkAsRead',
+      'click a.mark-as-read': 'markAsRead'
     },
 
     initialize: function(options) {
@@ -115,7 +121,43 @@ $(document).ready(function() {
       this.sitesCollection = options.sitesCollection;
     },
 
-    markAsRead: function() {
+    showMarkAsRead: function(e) {
+      $(e.currentTarget).find('.date').addClass('hide');
+      $(e.currentTarget).find('.link').removeClass('hide');
+    },
+
+    hideMarkAsRead: function(e) {
+      $(e.currentTarget).find('.date').removeClass('hide');
+      $(e.currentTarget).find('.link').addClass('hide');
+    },
+
+    markAsRead: function(e) {
+      e.preventDefault();
+      var id = $(e.currentTarget).data("id");
+      var feed = this.collection.findWhere({ _id: id });
+      var that = this;
+
+      feed.save({ seen: true }, { success: function() {
+        that.collection.remove(feed);
+
+        if (!that.siteID)
+        {
+          var allSites = that.sitesCollection.findWhere({ _id: null });
+          var site = that.sitesCollection.findWhere({_id: feed.get('site_id')});
+          allSites.set('count', allSites.get('count') - 1);
+          site.set('count', site.get('count') - 1);
+        } else {
+          var site = that.sitesCollection.findWhere({_id: that.siteID});
+          var allSites = that.sitesCollection.findWhere({_id: null});
+          allSites.set('count', allSites.get('count') - 1);
+          site.set('count', site.get('count') - 1);
+        }
+      }, error: function() {
+        BackRss.vent.trigger("error", "Error occured");
+      }});
+    },
+
+    markAllAsRead: function() {
       var that = this;
 
       bootbox.confirm("Are you sure?", function(result) {
