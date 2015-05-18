@@ -22,11 +22,11 @@ db.feeds = new Datastore();
 var sites = [
   { title: 'Wykop.pl', url: 'http://www.wykop.pl/rss' },
   { title: 'Antyweb.pl', url : 'http://feeds2.feedburner.com/Antyweb' }
-]
+];
 
 var saveFeedData = function(feed) {
   db.feeds.find({ guid: feed.guid, site_id: feed.site_id }, function (err, feeds) {
-    if (feeds.length == 0)
+    if (feeds.length === 0)
     {
       db.feeds.insert(feed, function (err, feed) {
         if (err)
@@ -36,7 +36,7 @@ var saveFeedData = function(feed) {
       });
     }
   });
-}
+};
 
 var getFeedData = function (site) {
   console.log('Fetching feeds for: ' + site.url);
@@ -59,7 +59,7 @@ var getFeedData = function (site) {
   } catch(e) {
     console.log('Error occured during fetching feed: ' + e);
   }
-}
+};
 
 var initSampleSites = function(site) {
   db.sites.insert(site, function (err, site) {
@@ -67,7 +67,7 @@ var initSampleSites = function(site) {
       console.log('Error occured during site save');
     }
   });
-}
+};
 
 var getFeeds = function () {
   db.sites.find({}, function (err, sites) {
@@ -77,7 +77,7 @@ var getFeeds = function () {
       sites.forEach(getFeedData);
     }
   });
-}
+};
 
 sites.forEach(initSampleSites);
 setInterval(getFeeds, 1000 * 10);
@@ -97,7 +97,7 @@ app.get('/sites', function (req, res) {
           site.count = count;
           cb(err);
         });
-      }
+      };
     });
 
     async.parallel(funcs, function(err){
@@ -114,7 +114,7 @@ app.get('/sites', function (req, res) {
     } else {
       res.send({ data: result });
     }
-  })
+  });
 });
 
 app.post('/sites', function (req, res) {
@@ -130,11 +130,11 @@ app.post('/sites', function (req, res) {
 app.delete('/sites/:id', function (req, res) {
   var deleteSite = function(callback) {
     db.sites.remove({ _id: req.params.id }, callback);
-  }
+  };
 
   var deleteFeedsForSite = function(arg1, callback) {
     db.feeds.remove({ site_id: req.params.id }, callback);
-  }
+  };
 
   async.waterfall([
     deleteSite.bind(this),
@@ -145,7 +145,7 @@ app.delete('/sites/:id', function (req, res) {
     } else {
       res.send({ data: result });
     }
-  })
+  });
 });
 
 app.get('/feeds/:category_id?', function (req, res) {
@@ -153,7 +153,7 @@ app.get('/feeds/:category_id?', function (req, res) {
 
   if (req.params.category_id)
   {
-    queryParams['site_id'] = req.params.category_id;
+    queryParams.site_id = req.params.category_id;
   }
 
   db.feeds.find(queryParams).sort({ pubDate: -1 }).exec(function (err, docs) {

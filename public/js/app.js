@@ -211,7 +211,7 @@ $(document).ready(function() {
     },
 
     filter: function (child, index, collection) {
-      return child.get('_id') != undefined;
+      return child.get('_id') !== undefined;
     },
 
     deleteSite: function(e) {
