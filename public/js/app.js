@@ -15,7 +15,7 @@ $(document).ready(function() {
   BackRss.mainLayout = new BackRss.AppLayoutView();
 
   BackRss.Site = Backbone.Model.extend({
-    urlRoot: 'http://localhost:8080/sites',
+    urlRoot: '/sites',
     idAttribute: '_id',
 
     defaults: {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
   BackRss.SitesCollection = Backbone.Collection.extend({
     model: BackRss.Site,
-    url: 'http://localhost:8080/sites',
+    url: '/sites',
 
     parse: function(response) {
       return response.data;
@@ -35,7 +35,7 @@ $(document).ready(function() {
   });
 
   BackRss.Feed = Backbone.Model.extend({
-    url: 'http://localhost:8080/feeds',
+    url: '/feeds',
     idAttribute: '_id'
   });
 
@@ -44,9 +44,9 @@ $(document).ready(function() {
 
     url: function() {
       if (this.siteID) {
-        return 'http://localhost:8080/feeds/' + this.siteID;
+        return '/feeds/' + this.siteID;
       } else {
-        return 'http://localhost:8080/feeds';
+        return '/feeds';
       }
     },
 

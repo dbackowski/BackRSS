@@ -1,9 +1,10 @@
 {
-  "name": "angrss",
+  "name": "BackRSS",
   "version": "1.0.0",
   "description": "Simple RSS reader",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Damian Baćkowski",
