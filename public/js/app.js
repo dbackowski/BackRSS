@@ -43,15 +43,15 @@ $(document).ready(function() {
     model: BackRss.Feed,
 
     url: function() {
-      if (this.siteID) {
-        return '/feeds/' + this.siteID;
+      if (this.siteId) {
+        return '/feeds/' + this.siteId;
       } else {
         return '/feeds';
       }
     },
 
     initialize: function(models, options) {
-      this.siteID = options.siteID;
+      this.siteId = options.siteId;
     },
 
     parse: function(response) {
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
     initialize: function(options) {
       this.listenTo(this.collection, "reset", this.render);
-      this.siteID = options.siteID;
+      this.siteId = options.siteId;
       this.sitesCollection = options.sitesCollection;
     },
 
@@ -140,15 +140,15 @@ $(document).ready(function() {
       feed.save({ seen: true }, { success: function() {
         that.collection.remove(feed);
 
-        if (!that.siteID)
+        if (!that.siteId)
         {
           var allSites = that.sitesCollection.findWhere({ _id: null });
-          var site = that.sitesCollection.findWhere({_id: feed.get('site_id')});
+          var site = that.sitesCollection.findWhere({ _id: feed.get('site_id') });
           allSites.set('count', allSites.get('count') - 1);
           site.set('count', site.get('count') - 1);
         } else {
-          var site = that.sitesCollection.findWhere({_id: that.siteID});
-          var allSites = that.sitesCollection.findWhere({_id: null});
+          var site = that.sitesCollection.findWhere({ _id: that.siteId });
+          var allSites = that.sitesCollection.findWhere({ _id: null });
           allSites.set('count', allSites.get('count') - 1);
           site.set('count', site.get('count') - 1);
         }
@@ -163,17 +163,17 @@ $(document).ready(function() {
       bootbox.confirm("Are you sure?", function(result) {
         if (result) {
           that.collection.forEach(function(model) {
-            model.save({seen: true});
+            model.save({ seen: true });
           });
 
-          if (!that.siteID)
+          if (!that.siteId)
           {
             _(that.sitesCollection.models).each(function(site) {
               site.set('count', 0);
             });
           } else {
-            var site = that.sitesCollection.findWhere({_id: that.siteID});
-            var allSites = that.sitesCollection.findWhere({_id: null});
+            var site = that.sitesCollection.findWhere({ _id: that.siteId });
+            var allSites = that.sitesCollection.findWhere({ _id: null });
             allSites.set('count', allSites.get('count') - site.get('count'));
             site.set('count', 0);
           }
@@ -189,7 +189,7 @@ $(document).ready(function() {
 
     templateHelpers: function() {
       return {
-        siteID: this.collection.siteID,
+        siteId: this.collection.siteId,
         feedsCount: this.collection.length
       };
     }
@@ -217,13 +217,13 @@ $(document).ready(function() {
     deleteSite: function(e) {
       e.preventDefault();
 
-      var siteID = $(e.currentTarget).data("id");
+      var siteId = $(e.currentTarget).data("id");
       var that = this;
 
       bootbox.confirm("Are you sure?", function(result) {
         if (result) {
-          var site = that.collection.findWhere({ _id: siteID });
-          var allSites = that.collection.findWhere({_id: null});
+          var site = that.collection.findWhere({ _id: siteId });
+          var allSites = that.collection.findWhere({ _id: null });
           allSites.set('count', allSites.get('count') - site.get('count'));
 
           site.destroy({ wait: true });
@@ -261,11 +261,10 @@ $(document).ready(function() {
       model.save({title: this.ui.inputTitle.val(), url: this.ui.inputUrl.val()}, {
         success: function(model, resp) {
           that.collection.add(resp.data);
-          that.collection.trigger('reset');
-          Backbone.history.navigate("manage-sites", { trigger: true });
+          Backbone.history.navigate("sites", { trigger: true });
         }, error: function() {
           BackRss.vent.trigger("error", "Error occured");
-        }, silent: true, wait: true
+        }, wait: true
       });
     }
   });
@@ -318,10 +317,10 @@ $(document).ready(function() {
           for (var site in collection.models)
           {
             allCount += collection.models[site].get('count');
-            that.sites.findWhere({_id: collection.models[site].get('_id')}).set('count', collection.models[site].get('count'));
+            that.sites.findWhere({ _id: collection.models[site].get('_id') }).set('count', collection.models[site].get('count'));
           }
 
-          that.sites.findWhere({_id: null}).set('count', allCount);
+          that.sites.findWhere({ _id: null }).set('count', allCount);
 
           if (typeof callback === "function") {
             callback.call(that);
@@ -330,27 +329,27 @@ $(document).ready(function() {
       }
     },
 
-    getFeeds: function(siteID) {
-      var feeds = new BackRss.FeedsCollection([], {siteID: siteID});
+    getFeeds: function(siteId) {
+      var feeds = new BackRss.FeedsCollection([], { siteId: siteId });
       var that = this;
 
       feeds.fetch().done(function() {
         var feedsListView = new BackRss.FeedsCollectionView({
           collection: feeds,
-          siteID: siteID,
+          siteId: siteId,
           sitesCollection: that.sites
         });
 
         BackRss.mainLayout.content.show(feedsListView);
 
         that.unmarkSelectedSite();
-        that.sites.findWhere({_id: siteID}).trigger('markSelected');
+        that.sites.findWhere({ _id: siteId }).trigger('markSelected');
       });
     },
 
-    feeds: function(siteID) {
+    feeds: function(siteId) {
       this.getSites(function() {
-        this.getFeeds(siteID);
+        this.getFeeds(siteId);
       });
     },
 
@@ -384,15 +383,16 @@ $(document).ready(function() {
   BackRss.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'feeds': 'feeds',
-      'feeds/:siteID': 'feeds',
-      'manage-sites': 'manageSites',
-      'add-site': 'addSite',
+      'feeds/:siteId': 'feeds',
+      'sites': 'manageSites',
+      'sites/add': 'addSite',
       '*notFound': 'notFound'
     }
   });
 
   BackRss.addInitializer(function(){
     var mainController = new BackRss.MainController();
+
     new BackRss.Router({
       controller: mainController
     });
