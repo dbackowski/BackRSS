@@ -133,7 +133,7 @@ app.delete('/sites/:id', function (req, res) {
   };
 
   var deleteFeedsForSite = function(arg1, callback) {
-    db.feeds.remove({ site_id: req.params.id }, callback);
+    db.feeds.remove({ site_id: req.params.id }, { multi: true }, callback);
   };
 
   async.waterfall([

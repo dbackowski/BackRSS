@@ -223,6 +223,8 @@ $(document).ready(function() {
       bootbox.confirm("Are you sure?", function(result) {
         if (result) {
           var site = that.collection.findWhere({ _id: siteID });
+          var allSites = that.collection.findWhere({_id: null});
+          allSites.set('count', allSites.get('count') - site.get('count'));
 
           site.destroy({ wait: true });
         }
