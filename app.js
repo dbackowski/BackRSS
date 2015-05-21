@@ -85,7 +85,7 @@ setInterval(getFeeds, 1000 * 10);
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-app.get('/sites', function (req, res) {
+app.get('/api/sites', function (req, res) {
   var fetchSites = function(callback) {
     db.sites.find({}, callback);
   };
@@ -117,7 +117,7 @@ app.get('/sites', function (req, res) {
   });
 });
 
-app.post('/sites', function (req, res) {
+app.post('/api/sites', function (req, res) {
   db.sites.insert(req.body, function (err, site) {
     if (err) {
       res.send({ error: err });
@@ -127,7 +127,7 @@ app.post('/sites', function (req, res) {
   });
 });
 
-app.delete('/sites/:id', function (req, res) {
+app.delete('/api/sites/:id', function (req, res) {
   var deleteSite = function(callback) {
     db.sites.remove({ _id: req.params.id }, callback);
   };
@@ -148,7 +148,7 @@ app.delete('/sites/:id', function (req, res) {
   });
 });
 
-app.get('/feeds/:category_id?', function (req, res) {
+app.get('/api/feeds/:category_id?', function (req, res) {
   var queryParams = { seen: false };
 
   if (req.params.category_id)
@@ -165,7 +165,7 @@ app.get('/feeds/:category_id?', function (req, res) {
   });
 });
 
-app.put('/feeds/:category_id?', function (req, res) {
+app.put('/api/feeds/:category_id?', function (req, res) {
   db.feeds.update({ _id: req.body._id }, { $set: { seen: true } }, {}, function (err, numReplaced) {
     if (err) {
       res.send({ error: err });
@@ -173,6 +173,10 @@ app.put('/feeds/:category_id?', function (req, res) {
       res.send({ data: req.body });
     }
   });
+});
+
+app.get('*', function(req, res) {
+  res.sendFile('/public/index.html', { root: __dirname });
 });
 
 var server = app.listen(8080, function () {

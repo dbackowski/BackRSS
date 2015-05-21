@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>BackRSS</title>
-    <script src="./js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="./js/vendor/underscore-min.js"></script>
-    <script src="./js/vendor/backbone-min.js"></script>
-    <script src="./js/vendor/backbone.marionette.min.js"></script>
-    <script src="./js/vendor/bootstrap.min.js"></script>
-    <script src="./js/vendor/bootbox.min.js"></script>
-    <script src="./js/vendor/moment.min.js"></script>
-    <script src="./js/app.js"></script>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css">
+    <script src="/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="/js/vendor/underscore-min.js"></script>
+    <script src="/js/vendor/backbone-min.js"></script>
+    <script src="/js/vendor/backbone.marionette.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+    <script src="/js/vendor/bootbox.min.js"></script>
+    <script src="/js/vendor/moment.min.js"></script>
+    <script src="/js/app.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
     <script type="text/template" id="site-item-template">
-      <a href="<%= '#feeds' + (_id ? '/' + _id : '') %>"><%= title %>&nbsp;(<%= count %>)</a>
+      <a href="<%= '/feeds' + (_id ? '/' + _id : '') %>"><%= title %>&nbsp;(<%= count %>)</a>
     </script>
 
     <script type="text/template" id="feed-item-template">
@@ -74,7 +74,7 @@
 
     <script type="text/template" id="manage-sites-template">
       <p>
-        <a href="#sites/add" class="btn btn-primary btn-block">Add Site</a>
+        <a href="/sites/add" class="btn btn-primary btn-block">Add Site</a>
       </p>
       <table class="table table-condensed table-hover"></table>
     </script>
@@ -84,7 +84,7 @@
         <div class="row">
           <div class="col-md-2 sidebar">
             <p>
-              <a href="#sites" class="btn btn-default btn-block">Manage Sites</a>
+              <a href="/sites" class="btn btn-default btn-block">Manage Sites</a>
             </p>
             <div id="menu"></div>
           </div>

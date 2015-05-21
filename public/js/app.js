@@ -15,7 +15,7 @@ $(document).ready(function() {
   BackRss.mainLayout = new BackRss.AppLayoutView();
 
   BackRss.Site = Backbone.Model.extend({
-    urlRoot: '/sites',
+    urlRoot: '/api/sites',
     idAttribute: '_id',
 
     defaults: {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
   BackRss.SitesCollection = Backbone.Collection.extend({
     model: BackRss.Site,
-    url: '/sites',
+    url: '/api/sites',
 
     parse: function(response) {
       return response.data;
@@ -35,7 +35,7 @@ $(document).ready(function() {
   });
 
   BackRss.Feed = Backbone.Model.extend({
-    url: '/feeds',
+    url: '/api/feeds',
     idAttribute: '_id'
   });
 
@@ -44,9 +44,9 @@ $(document).ready(function() {
 
     url: function() {
       if (this.siteId) {
-        return '/feeds/' + this.siteId;
+        return '/api/feeds/' + this.siteId;
       } else {
-        return '/feeds';
+        return '/api/feeds';
       }
     },
 
@@ -414,8 +414,14 @@ $(document).ready(function() {
 
     if (Backbone.history)
     {
-      Backbone.history.start();
+      Backbone.history.start({ pushState: true });
     }
+  });
+
+  $(document).on('click', "a[href^='/']", function(e) {
+    e.preventDefault();
+    var href = $(e.currentTarget).attr('href');
+    Backbone.history.navigate(href, { trigger: true });
   });
 
   BackRss.start();
