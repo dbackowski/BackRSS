@@ -29,6 +29,14 @@ $(document).ready(function() {
     model: BackRss.Site,
     url: '/api/sites',
 
+    comparator: function(model1, model2) {
+      if (model1.get('title') > model2.get('title') && model1.get('_id') != null) {
+        return 1;
+      } else {
+        return -1;
+      }
+    },
+
     parse: function(response) {
       return response.data;
     }

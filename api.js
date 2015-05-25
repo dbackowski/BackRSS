@@ -84,7 +84,7 @@ app.use(bodyParser.json());
 
 app.get('/api/sites', function (req, res) {
   var fetchSites = function(callback) {
-    db.sites.find({}, callback);
+    db.sites.find({}).sort({ title: 1 }).exec(callback);
   };
 
   var fetchSitesCount = function(sites, callback) {
