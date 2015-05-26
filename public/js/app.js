@@ -63,6 +63,7 @@ $(document).ready(function() {
     },
 
     parse: function(response) {
+      console.log(response.data);
       return response.data;
     }
   });
@@ -102,7 +103,16 @@ $(document).ready(function() {
 
   BackRss.FeedItemView = Backbone.Marionette.ItemView.extend({
     tagName: "tr",
-    template: '#feed-item-template'
+    template: '#feed-item-template',
+
+    initialize: function(options) {
+      this.sites = options.sites;
+      this.siteId = options.siteId;
+    },
+
+    templateHelpers: function() {
+      return { sites: this.sites, siteId: this.siteId }
+    }
   });
 
   BackRss.NoFeedItemsView = Backbone.Marionette.ItemView.extend({
@@ -113,6 +123,10 @@ $(document).ready(function() {
     template: '#feeds-template',
     childView: BackRss.FeedItemView,
     childViewContainer: "table",
+    childViewOptions: function() {
+      return { sites: this.sitesCollection, siteId: this.siteId }
+    },
+
     emptyView: BackRss.NoFeedItemsView,
 
     events: {
