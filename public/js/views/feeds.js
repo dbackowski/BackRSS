@@ -1,7 +1,10 @@
-BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
+define([
+  "marionette",
+  "globals"
+], function(Marionette, BackRss){
   "use strict";
 
-  Views.FeedItemView = Backbone.Marionette.ItemView.extend({
+  BackRss.Views.FeedItemView = Backbone.Marionette.ItemView.extend({
     tagName: "tr",
     template: '#feed-item-template',
 
@@ -15,20 +18,20 @@ BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
     }
   });
 
-  Views.NoFeedItemsView = Backbone.Marionette.ItemView.extend({
+  BackRss.Views.NoFeedItemsView = Backbone.Marionette.ItemView.extend({
     template: '#no-feeds-template'
   });
 
-  Views.FeedsCollectionView = Backbone.Marionette.CompositeView.extend({
+  BackRss.Views.FeedsCollectionView = Backbone.Marionette.CompositeView.extend({
     template: '#feeds-template',
-    childView: Views.FeedItemView,
+    childView: BackRss.Views.FeedItemView,
     childViewContainer: "table",
 
     childViewOptions: function() {
       return { sites: this.sitesCollection, siteId: this.siteId };
     },
 
-    emptyView: Views.NoFeedItemsView,
+    emptyView: BackRss.Views.NoFeedItemsView,
 
     events: {
       'click button#mark-read': "markAllAsRead",
@@ -117,4 +120,6 @@ BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
       };
     }
   });
+
+  return BackRss;
 });

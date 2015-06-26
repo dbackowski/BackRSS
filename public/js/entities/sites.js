@@ -1,7 +1,10 @@
-BackRss.module("Entities", function(Entities, BackRss, Backbone, Marionette, $, _) {
+define([
+  "marionette",
+  "globals"
+], function(Marionette, BackRss){
   "use strict";
 
-  Entities.Site = Backbone.Model.extend({
+  BackRss.Entities.Site = Backbone.Model.extend({
     urlRoot: '/api/sites',
     idAttribute: '_id',
 
@@ -12,8 +15,8 @@ BackRss.module("Entities", function(Entities, BackRss, Backbone, Marionette, $, 
     }
   });
 
-  Entities.SitesCollection = Backbone.Collection.extend({
-    model: Entities.Site,
+  BackRss.Entities.SitesCollection = Backbone.Collection.extend({
+    model: BackRss.Entities.Site,
     url: '/api/sites',
 
     comparator: function(model1, model2) {
@@ -28,4 +31,6 @@ BackRss.module("Entities", function(Entities, BackRss, Backbone, Marionette, $, 
       return response.data;
     }
   });
+
+  return BackRss;
 });

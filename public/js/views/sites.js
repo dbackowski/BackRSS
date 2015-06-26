@@ -1,7 +1,10 @@
-BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
+define([
+  "marionette",
+  "globals"
+], function(Marionette, BackRss){
   "use strict";
 
-  Views.SiteItemView = Backbone.Marionette.ItemView.extend({
+  BackRss.Views.SiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "li",
     template: '#site-item-template',
 
@@ -24,25 +27,25 @@ BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
     }
   });
 
-  Views.SitesCollectionView = Backbone.Marionette.CollectionView.extend({
+  BackRss.Views.SitesCollectionView = Backbone.Marionette.CollectionView.extend({
     tagName: "ul",
     className: "nav nav-sidebar",
-    childView: Views.SiteItemView,
+    childView: BackRss.Views.SiteItemView,
 
     initialize : function() {
       this.listenTo(this.collection, "reset", this.render);
     }
   });
 
-  Views.ManageSiteItemView = Backbone.Marionette.ItemView.extend({
+  BackRss.Views.ManageSiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "tr",
     template: '#manage-sites-item-template'
   });
 
-  Views.ManageSitesView = Backbone.Marionette.CompositeView.extend({
+  BackRss.Views.ManageSitesView = Backbone.Marionette.CompositeView.extend({
     template: '#manage-sites-template',
 
-    childView: Views.ManageSiteItemView,
+    childView: BackRss.Views.ManageSiteItemView,
     childViewContainer: "table",
 
     events: {
@@ -71,7 +74,7 @@ BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
     }
   });
 
-  Views.ManageSitesAddSiteView = Backbone.Marionette.ItemView.extend({
+  BackRss.Views.ManageSitesAddSiteView = Backbone.Marionette.ItemView.extend({
     template: "#add-site-template",
 
     events: {
@@ -107,4 +110,6 @@ BackRss.module("Views", function(Views, BackRss, Backbone, Marionette, $, _) {
       });
     }
   });
+
+  return BackRss;
 });

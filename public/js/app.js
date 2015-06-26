@@ -1,7 +1,9 @@
-(function() {
+define([
+  "marionette",
+  "globals",
+  "mainController"
+], function(Marionette, BackRss, MainController) {
   "use strict";
-
-  var BackRss = new Marionette.Application();
 
   BackRss.Router = Marionette.AppRouter.extend({
     appRoutes: {
@@ -14,7 +16,7 @@
   });
 
   BackRss.addInitializer(function(){
-    var mainController = new BackRss.Controllers.MainController();
+    var mainController = new MainController();
 
     new BackRss.Router({
       controller: mainController
@@ -27,37 +29,33 @@
     });
   });
 
-  $(document).ready(function() {
-    BackRss.on('before:start', function() {
-      BackRss.AppLayoutView = Marionette.LayoutView.extend({
-        template: "#layout-view-template",
+  BackRss.on('before:start', function() {
+    BackRss.AppLayoutView = Marionette.LayoutView.extend({
+      template: "#layout-view-template",
 
-        regions: {
-          menu: "#menu",
-          content: "#content"
-        }
-      });
-
-      BackRss.mainLayout = new BackRss.AppLayoutView();
-    });
-
-    BackRss.on('start', function() {
-      $('#main').html(BackRss.mainLayout.render().el);
-
-      if (Backbone.history)
-      {
-        Backbone.history.start({ pushState: true });
+      regions: {
+        menu: "#menu",
+        content: "#content"
       }
     });
 
-    $(document).on('click', "a[href^='/']", function(e) {
-      e.preventDefault();
-      var href = $(e.currentTarget).attr('href');
-      Backbone.history.navigate(href, { trigger: true });
-    });
-
-    BackRss.start();
+    BackRss.mainLayout = new BackRss.AppLayoutView();
   });
 
-  window.BackRss = BackRss;
-})();
+  BackRss.on('start', function() {
+    $('#main').html(BackRss.mainLayout.render().el);
+
+    if (Backbone.history)
+    {
+      Backbone.history.start({ pushState: true });
+    }
+  });
+
+  $(document).on('click', "a[href^='/']", function(e) {
+    e.preventDefault();
+    var href = $(e.currentTarget).attr('href');
+    Backbone.history.navigate(href, { trigger: true });
+  });
+
+  return BackRss;
+});

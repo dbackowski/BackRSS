@@ -1,7 +1,14 @@
-BackRss.module("Controllers", function(Controllers, BackRss, Backbone, Marionette, $, _) {
+define([
+  "marionette",
+  "globals",
+  "entitySites",
+  "siteViews",
+  "entityFeeds",
+  "feedViews"
+], function(Marionette, BackRss, entitySites, siteViews, entityFeeds, feedViews){
   "use strict";
 
-  Controllers.MainController = Marionette.Controller.extend({
+  var MainController = Marionette.Controller.extend({
     initialize: function() {
       this.sites = new BackRss.Entities.SitesCollection();
     },
@@ -111,4 +118,6 @@ BackRss.module("Controllers", function(Controllers, BackRss, Backbone, Marionett
       Backbone.history.navigate("feeds", { trigger: true });
     }
   });
+
+  return MainController;
 });

@@ -1,13 +1,16 @@
-BackRss.module("Entities", function(Entities, BackRss, Backbone, Marionette, $, _) {
+define([
+  "marionette",
+  "globals"
+], function(Marionette, BackRss){
   "use strict";
 
-  Entities.Feed = Backbone.Model.extend({
+  BackRss.Entities.Feed = Backbone.Model.extend({
     url: '/api/feeds',
     idAttribute: '_id'
   });
 
-  Entities.FeedsCollection = Backbone.Collection.extend({
-    model: Entities.Feed,
+  BackRss.Entities.FeedsCollection = Backbone.Collection.extend({
+    model: BackRss.Entities.Feed,
 
     url: function() {
       if (this.siteId) {
@@ -25,4 +28,6 @@ BackRss.module("Entities", function(Entities, BackRss, Backbone, Marionette, $, 
       return response.data;
     }
   });
+
+  return BackRss;
 });
