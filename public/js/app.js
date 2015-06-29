@@ -1,8 +1,9 @@
 define([
   "marionette",
   "globals",
-  "mainController"
-], function(Marionette, BackRss, MainController) {
+  "mainController",
+  "vendor/text!templates/layout.html"
+], function(Marionette, BackRss, MainController, layoutTemplate) {
   "use strict";
 
   BackRss.Router = Marionette.AppRouter.extend({
@@ -31,7 +32,7 @@ define([
 
   BackRss.on('before:start', function() {
     BackRss.AppLayoutView = Marionette.LayoutView.extend({
-      template: "#layout-view-template",
+      template: _.template(layoutTemplate),
 
       regions: {
         menu: "#menu",

@@ -1,12 +1,15 @@
 define([
   "marionette",
-  "globals"
-], function(Marionette, BackRss){
+  "globals",
+  "vendor/text!templates/feeds/items.html",
+  "vendor/text!templates/feeds/item.html",
+  "vendor/text!templates/feeds/no-items.html",
+], function(Marionette, BackRss, itemsTemplate, itemTemplate, noItemsTemplate){
   "use strict";
 
   BackRss.Views.FeedItemView = Backbone.Marionette.ItemView.extend({
     tagName: "tr",
-    template: '#feed-item-template',
+    template: _.template(itemTemplate),
 
     initialize: function(options) {
       this.sites = options.sites;
@@ -19,11 +22,11 @@ define([
   });
 
   BackRss.Views.NoFeedItemsView = Backbone.Marionette.ItemView.extend({
-    template: '#no-feeds-template'
+    template: _.template(noItemsTemplate)
   });
 
   BackRss.Views.FeedsCollectionView = Backbone.Marionette.CompositeView.extend({
-    template: '#feeds-template',
+    template: _.template(itemsTemplate),
     childView: BackRss.Views.FeedItemView,
     childViewContainer: "table",
 

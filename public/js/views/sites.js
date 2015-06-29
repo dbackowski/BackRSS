@@ -1,12 +1,16 @@
 define([
   "marionette",
-  "globals"
-], function(Marionette, BackRss){
+  "globals",
+  "vendor/text!templates/sites/item.html",
+  "vendor/text!templates/sites/manager/items.html",
+  "vendor/text!templates/sites/manager/item.html",
+  "vendor/text!templates/sites/manager/add.html",
+], function(Marionette, BackRss, itemTemplate, managerItemsTemplate, managerItemTemplate, managerAddTemplate){
   "use strict";
 
   BackRss.Views.SiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "li",
-    template: '#site-item-template',
+    template: _.template(itemTemplate),
 
     modelEvents: {
       'markSelected': 'addActiveClass',
@@ -39,11 +43,11 @@ define([
 
   BackRss.Views.ManageSiteItemView = Backbone.Marionette.ItemView.extend({
     tagName: "tr",
-    template: '#manage-sites-item-template'
+    template: _.template(managerItemTemplate)
   });
 
   BackRss.Views.ManageSitesView = Backbone.Marionette.CompositeView.extend({
-    template: '#manage-sites-template',
+    template: _.template(managerItemsTemplate),
 
     childView: BackRss.Views.ManageSiteItemView,
     childViewContainer: "table",
@@ -75,7 +79,7 @@ define([
   });
 
   BackRss.Views.ManageSitesAddSiteView = Backbone.Marionette.ItemView.extend({
-    template: "#add-site-template",
+    template: _.template(managerAddTemplate),
 
     events: {
       'click #btnAddSite': "addSite"
