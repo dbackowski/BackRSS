@@ -14,10 +14,11 @@ define([
     initialize: function(options) {
       this.sites = options.sites;
       this.siteId = options.siteId;
+      this.titleOnly = options.titleOnly;
     },
 
     templateHelpers: function() {
-      return { sites: this.sites, siteId: this.siteId };
+      return { sites: this.sites, siteId: this.siteId, titleOnly: this.titleOnly };
     }
   });
 
@@ -31,7 +32,7 @@ define([
     childViewContainer: "table",
 
     childViewOptions: function() {
-      return { sites: this.sitesCollection, siteId: this.siteId };
+      return { sites: this.sitesCollection, siteId: this.siteId, titleOnly: this.titleOnly, dupa: 1 };
     },
 
     emptyView: BackRss.Views.NoFeedItemsView,
@@ -41,13 +42,21 @@ define([
       'click button#refresh': "refresh",
       'mouseenter tr': 'showMarkAsRead',
       'mouseleave tr': 'hideMarkAsRead',
-      'click a.mark-as-read': 'markAsRead'
+      'click a.mark-as-read': 'markAsRead',
+      'click a.title-only': 'showTitleOnly',
+      'click a.title-and-header': 'showTitleAndHeader'
     },
 
     initialize: function(options) {
       this.listenTo(this.collection, "reset", this.render);
       this.siteId = options.siteId;
       this.sitesCollection = options.sitesCollection;
+      this.titleOnly = true;
+      this.siteTitle = this.sitesCollection.findWhere({ _id: this.siteId }).get('title');
+    },
+
+    getSiteTitle: function() {
+      return this.sitesCollection.findWhere({ _id: this.siteId }).title;
     },
 
     showMarkAsRead: function(e) {
@@ -112,6 +121,18 @@ define([
       });
     },
 
+    showTitleOnly: function() {
+      console.log('title only');
+      this.titleOnly = true;
+      this.collection.trigger("reset");
+    },
+
+    showTitleAndHeader: function() {
+      console.log('title and header');
+      this.titleOnly = false;
+      this.collection.trigger("reset");
+    },
+
     refresh: function() {
       Backbone.history.loadUrl();
     },
@@ -119,7 +140,8 @@ define([
     templateHelpers: function() {
       return {
         siteId: this.collection.siteId,
-        feedsCount: this.collection.length
+        feedsCount: this.collection.length,
+        siteTitle: this.siteTitle
       };
     }
   });

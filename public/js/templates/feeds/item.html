@@ -3,6 +3,8 @@
     <a href="/feeds/<%- site_id %>"><%- sites.findWhere({ _id: site_id }).get('title') %></a>
   </td>
 <% } %>
+
+<% if (titleOnly) { %>
 <td>
   <a href="<%- link %>" target="_blank"><%= title %></a>
 </td>
@@ -14,3 +16,18 @@
     <a href="#" data-id="<%- _id %>" class="mark-as-read"><i class="glyphicon glyphicon-remove"></i></a>
   </div>
 </td>
+<% } else { %>
+<td>
+  <div class="pull-left"><a href="<%- link %>" target="_blank"><%= title %></a></div>
+  <div class="pull-right">
+    <div class="date">
+      <%- moment(pubDate).format("YYYY-MM-DD HH:mm") %>
+    </div>
+    <div class="link hide">
+      <a href="#" data-id="<%- _id %>" class="mark-as-read"><i class="glyphicon glyphicon-remove"></i></a>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <p><%= description %></p>
+</td>
+<% } %>
