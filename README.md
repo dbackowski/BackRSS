@@ -2,9 +2,9 @@
 
 Very simple RSS reader (NodeJS + NeDB + Backbone + Marionette).
 
-## Usage
+![screenshot](http://i.imgur.com/nXFVO3h.png)
 
-In browser
+## Usage
 
     npm start
 
