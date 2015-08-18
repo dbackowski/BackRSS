@@ -2,7 +2,7 @@
   "name": "BackRSS",
   "version": "1.0.0",
   "description": "Simple RSS reader",
-  "main": "app.js",
+  "main": "electron.js",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"

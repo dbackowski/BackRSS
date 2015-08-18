@@ -122,13 +122,11 @@ define([
     },
 
     showTitleOnly: function() {
-      console.log('title only');
       this.titleOnly = true;
       this.collection.trigger("reset");
     },
 
     showTitleAndHeader: function() {
-      console.log('title and header');
       this.titleOnly = false;
       this.collection.trigger("reset");
     },
