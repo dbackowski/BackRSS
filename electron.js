@@ -10,6 +10,7 @@ backRssApi.start();
 require('crash-reporter').start();
 
 var mainWindow = null;
+var aboutWindow = null;
 
 var menuTemplate = [
   {
@@ -18,10 +19,16 @@ var menuTemplate = [
       {
         label: 'About BackRSS',
         click: function() {
-          var aboutWindow = new BrowserWindow({ width: 400, height: 150, "node-integration": false, frame: true, resizable: false });
+          if (!aboutWindow) {
+            aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
+                                              resizable: false, "always-on-top": true });
+            aboutWindow.loadUrl('http://localhost:8080/about.html');
 
-          aboutWindow.loadUrl('http://localhost:8080/about.html');
-          console.log('aaaa');
+
+            aboutWindow.on('closed', function () {
+              aboutWindow = null;
+            });
+          }
         }
       },
       {
