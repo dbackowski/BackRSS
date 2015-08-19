@@ -8,6 +8,7 @@ var app = express();
 
 var FeedParser = require('feedparser');
 var request = require('request');
+var path = require('path');
 
 var onError = function (error) {
   console.error('Error: ' + error);
@@ -79,7 +80,7 @@ var getFeeds = function () {
   });
 };
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 app.get('/api/sites', function (req, res) {
