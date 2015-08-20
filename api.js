@@ -17,13 +17,8 @@ var onError = function (error) {
 var Datastore = require('nedb');
 
 var db = {};
-db.sites = new Datastore();
-db.feeds = new Datastore();
-
-var sites = [
-  { title: 'Wykop.pl', url: 'http://www.wykop.pl/rss' },
-  { title: 'Antyweb.pl', url : 'http://feeds2.feedburner.com/Antyweb' }
-];
+db.sites = new Datastore({ filename: path.join(__dirname,'sites'), autoload: true });
+db.feeds = new Datastore({ filename: path.join(__dirname,'feeds'), autoload: true });
 
 var saveFeedData = function(feed) {
   db.feeds.find({ guid: feed.guid, site_id: feed.site_id }, function (err, feeds) {
@@ -179,8 +174,7 @@ app.get('*', function(req, res) {
 
 module.exports = {
   start: function() {
-    sites.forEach(initSampleSites);
-    setInterval(getFeeds, 1000 * 10);
+    setInterval(getFeeds, 1000 * 30);
 
     var server = app.listen(8080, function () {
       var port = server.address().port;
