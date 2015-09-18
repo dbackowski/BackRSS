@@ -141,12 +141,12 @@ app.delete('/api/sites/:id', function (req, res) {
   });
 });
 
-app.get('/api/feeds/:category_id?', function (req, res) {
+app.get('/api/feeds/:site_id?', function (req, res) {
   var queryParams = { seen: false };
 
-  if (req.params.category_id)
+  if (req.params.site_id)
   {
-    queryParams.site_id = req.params.category_id;
+    queryParams.site_id = req.params.site_id;
   }
 
   db.feeds.find(queryParams).sort({ pubDate: -1 }).exec(function (err, docs) {
@@ -158,7 +158,7 @@ app.get('/api/feeds/:category_id?', function (req, res) {
   });
 });
 
-app.put('/api/feeds/:category_id?', function (req, res) {
+app.put('/api/feeds/:site_id?', function (req, res) {
   db.feeds.update({ _id: req.body._id }, { $set: { seen: true } }, {}, function (err, numReplaced) {
     if (err) {
       res.send({ error: err });
@@ -178,7 +178,7 @@ module.exports = {
 
     var server = app.listen(8080, function () {
       var port = server.address().port;
-      console.log('App listening at http://localhost:%s', port);
+      //console.log('App listening at http://localhost:%s', port);
     });
   }
 };
