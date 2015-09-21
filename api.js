@@ -176,10 +176,16 @@ module.exports = {
   start: function() {
     setInterval(getFeeds, 1000 * 30);
 
-    var server = app.listen(8080, function () {
-      var port = server.address().port;
-      //console.log('App listening at http://localhost:%s', port);
-    });
+    this._server = app.listen(8080, function () {
+      var port = this._server.address().port;
+      console.log('App listening at http://localhost:%s', port);
+    }.bind(this));
+  },
+
+  stop: function() {
+    clearInterval(getFeeds);
+
+    this._server.close();
   }
 };
 
