@@ -10,15 +10,21 @@ var FeedParser = require('feedparser');
 var request = require('request');
 var path = require('path');
 
+var Datastore = require('nedb');
+var db = {};
+var env = process.env.NODE_ENV || 'development'
+
+if (env == 'test') {
+  db.sites = new Datastore();
+  db.feeds = new Datastore();
+} else {
+  db.sites = new Datastore({ filename: path.join(__dirname,'sites'), autoload: true });
+  db.feeds = new Datastore({ filename: path.join(__dirname,'feeds'), autoload: true });
+}
+
 var onError = function (error) {
   console.error('Error: ' + error);
 };
-
-var Datastore = require('nedb');
-
-var db = {};
-db.sites = new Datastore({ filename: path.join(__dirname,'sites'), autoload: true });
-db.feeds = new Datastore({ filename: path.join(__dirname,'feeds'), autoload: true });
 
 var saveFeedData = function(feed) {
   db.feeds.find({ guid: feed.guid, site_id: feed.site_id }, function (err, feeds) {
@@ -178,7 +184,10 @@ module.exports = {
 
     this._server = app.listen(8080, function () {
       var port = this._server.address().port;
-      console.log('App listening at http://localhost:%s', port);
+
+      if (env != 'test') {
+        console.log('App listening at http://localhost:%s', port);
+      }
     }.bind(this));
   },
 

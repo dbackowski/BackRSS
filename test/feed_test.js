@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 var should = require('chai').should();
 var expect = require('chai').expect;
 var supertest = require('supertest');
@@ -25,7 +27,6 @@ describe('Feed', function() {
         siteId = res.body.data._id;
         done();
       });
-
   });
 
   after(function() {
