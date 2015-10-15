@@ -1,4 +1,4 @@
-# BackRSS
+# BackRSS [![Build Status](https://travis-ci.org/dbackowski/BackRSS.svg?branch=master)](https://travis-ci.org/dbackowski/BackRSS)
 
 Very simple RSS reader (NodeJS + NeDB + Backbone + Marionette + Electron).
 
