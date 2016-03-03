@@ -6,15 +6,20 @@ Very simple RSS reader (NodeJS + NeDB + Backbone + Marionette + Electron).
 
 ## Usage
 
-in browser:
-
+    npm install
     npm start
 
-Go to http://localhost:8080
+in browser go to: http://localhost:8080
 
 in Atom Electron:
 
+    npm install
+    npm install electron -g
     electron electron.js
 
 standalone packages for Linux (x64) and Mac OS X (x64): 
 https://github.com/dbackowski/BackRSS/releases
+
+## License
+
+Released under the MIT License.
