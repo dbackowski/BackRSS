@@ -5,7 +5,7 @@
   "main": "electron.js",
   "scripts": {
     "start": "NODE_ENV=production node app.js",
-    "package": "electron-packager ./ BackRSS --platform=darwin,linux --icon=./icon.icns --arch=x64 --version=0.30.4",
+    "package": "electron-packager ./ BackRSS --platform=darwin,linux --icon=./icon.icns --arch=x64 --version=0.36.9",
     "test": "NODE_ENV=test mocha"
   },
   "author": "Damian Baćkowski",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "electron-packager": "^5.0.1",
+    "electron-packager": "^5.2.1",
     "supertest": "^1.1.0"
   }
 }

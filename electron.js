@@ -7,8 +7,6 @@ var MenuItem = require('menu-item');
 
 backRssApi.start();
 
-require('crash-reporter').start();
-
 var mainWindow = null;
 var aboutWindow = null;
 
@@ -81,14 +79,8 @@ var menuTemplate = [
   },
 ];
 
-electron.on('window-all-closed', function() {
-  if (process.platform != 'darwin')
-    electron.quit();
-});
-
-electron.on('ready', function() {
+function createMainWindow() {
   mainWindow = new BrowserWindow({ width: 1200, height: 768, "node-integration": false });
-
   mainWindow.loadUrl('http://localhost:8080');
 
   mainWindow.on('closed', function() {
@@ -102,4 +94,17 @@ electron.on('ready', function() {
     e.preventDefault();
     shell.openExternal(url);
   });
+}
+
+electron.on('ready', createMainWindow);
+
+electron.on('window-all-closed', function() {
+  if (process.platform != 'darwin')
+    electron.quit();
+});
+
+electron.on('activate', function () {
+  if (mainWindow === null) {
+    createMainWindow();
+  }
 });
