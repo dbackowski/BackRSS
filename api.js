@@ -13,6 +13,7 @@ var path = require('path');
 var Datastore = require('nedb');
 var db = {};
 var env = process.env.NODE_ENV || 'development'
+var getFeedsInterval = null;
 
 if (env == 'test') {
   db.sites = new Datastore();
@@ -180,7 +181,7 @@ app.get('*', function(req, res) {
 
 module.exports = {
   start: function() {
-    setInterval(getFeeds, 1000 * 30);
+    getFeedsInterval = setInterval(getFeeds, 1000 * 30);
 
     this._server = app.listen(8080, function () {
       var port = this._server.address().port;
@@ -192,7 +193,7 @@ module.exports = {
   },
 
   stop: function() {
-    clearInterval(getFeeds);
+    clearInterval(getFeedsInterval);
 
     this._server.close();
   }

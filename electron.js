@@ -9,79 +9,157 @@ backRssApi.start();
 
 var mainWindow = null;
 var aboutWindow = null;
+var menuTemplate = null;
 
-var menuTemplate = [
-  {
-    label: 'BackRSS',
-    submenu: [
-      {
-        label: 'About BackRSS',
-        click: function() {
-          if (!aboutWindow) {
-            aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
-                                              resizable: false, "always-on-top": true });
-            aboutWindow.loadUrl('http://localhost:8080/about.html');
+if (process.platform !== 'darwin') {
+  menuTemplate = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Quit',
+          accelerator: 'Ctrl+Q',
+          click: function() {
+            backRssApi.stop();
+            electron.quit();
+          }
+        },
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        {
+          label: 'Undo',
+          accelerator: 'Ctrl+Z',
+          selector: 'undo:'
+        },
+        {
+          label: 'Redo',
+          accelerator: 'Shift+Ctrl+Z',
+          selector: 'redo:'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Cut',
+          accelerator: 'Ctrl+X',
+          selector: 'cut:'
+        },
+        {
+          label: 'Copy',
+          accelerator: 'Ctrl+C',
+          selector: 'copy:'
+        },
+        {
+          label: 'Paste',
+          accelerator: 'Ctrl+V',
+          selector: 'paste:'
+        },
+        {
+          label: 'Select All',
+          accelerator: 'Ctrl+A',
+          selector: 'selectAll:'
+        }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'About BackRSS',
+          click: function() {
+            if (!aboutWindow) {
+              aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
+                                                resizable: false, "always-on-top": true });
+              aboutWindow.loadUrl('http://localhost:8080/about.html');
 
-
-            aboutWindow.on('closed', function () {
-              aboutWindow = null;
-            });
+              aboutWindow.on('closed', function () {
+                aboutWindow = null;
+              });
+            }
           }
         }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: 'Quit',
-        accelerator: 'Command+Q',
-        click: function() { electron.quit(); }
-      },
-    ]
-  },
-  {
-    label: 'Edit',
-    submenu: [
-      {
-        label: 'Undo',
-        accelerator: 'Command+Z',
-        selector: 'undo:'
-      },
-      {
-        label: 'Redo',
-        accelerator: 'Shift+Command+Z',
-        selector: 'redo:'
-      },
-      {
-        type: 'separator'
-      },
-      {
-        label: 'Cut',
-        accelerator: 'Command+X',
-        selector: 'cut:'
-      },
-      {
-        label: 'Copy',
-        accelerator: 'Command+C',
-        selector: 'copy:'
-      },
-      {
-        label: 'Paste',
-        accelerator: 'Command+V',
-        selector: 'paste:'
-      },
-      {
-        label: 'Select All',
-        accelerator: 'Command+A',
-        selector: 'selectAll:'
-      }
-    ]
-  },
-];
+      ]
+    }
+  ];
+} else {
+  menuTemplate = [
+    {
+      label: 'BackRSS',
+      submenu: [
+        {
+          label: 'About BackRSS',
+          click: function() {
+            if (!aboutWindow) {
+              aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
+                                                resizable: false, "always-on-top": true });
+              aboutWindow.loadURL('http://localhost:8080/about.html');
+
+              aboutWindow.on('closed', function () {
+                aboutWindow = null;
+              });
+            }
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: function() {
+            backRssApi.stop();
+            electron.quit();
+          }
+        },
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        {
+          label: 'Undo',
+          accelerator: 'Command+Z',
+          selector: 'undo:'
+        },
+        {
+          label: 'Redo',
+          accelerator: 'Shift+Command+Z',
+          selector: 'redo:'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Cut',
+          accelerator: 'Command+X',
+          selector: 'cut:'
+        },
+        {
+          label: 'Copy',
+          accelerator: 'Command+C',
+          selector: 'copy:'
+        },
+        {
+          label: 'Paste',
+          accelerator: 'Command+V',
+          selector: 'paste:'
+        },
+        {
+          label: 'Select All',
+          accelerator: 'Command+A',
+          selector: 'selectAll:'
+        }
+      ]
+    },
+  ];
+}
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({ width: 1200, height: 768, "node-integration": false });
-  mainWindow.loadUrl('http://localhost:8080');
+  mainWindow.loadURL('http://localhost:8080');
 
   mainWindow.on('closed', function() {
     mainWindow = null;
