@@ -5,7 +5,7 @@
   "main": "electron.js",
   "scripts": {
     "start": "NODE_ENV=production electron electron.js",
-    "package": "electron-packager ./ BackRSS --platform=darwin,linux --icon=./icon.icns --arch=x64 --version=0.37.2",
+    "build": "electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64 --version=0.37.2",
     "test": "NODE_ENV=test mocha"
   },
   "author": "Damian Baćkowski",

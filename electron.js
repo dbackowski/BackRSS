@@ -158,7 +158,7 @@ if (process.platform !== 'darwin') {
 }
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({ width: 1200, height: 768, "node-integration": false });
+  mainWindow = new BrowserWindow({ width: 1200, height: 768, "node-integration": false, icon: __dirname + '/public/images/icon.png'});
   mainWindow.loadURL('http://localhost:8080');
 
   mainWindow.on('closed', function() {
