@@ -9,7 +9,7 @@ Very simple RSS reader (NodeJS + NeDB + Backbone + Marionette + Electron).
     npm install
     npm start
 
-To create standalone packages for linux (x64) and mac OS X (x64):
+To create standalone packages for Linux (x64) and Mac OS X (x64):
 
     npm run-script build
 
