@@ -5,7 +5,7 @@
   "main": "electron.js",
   "scripts": {
     "start": "NODE_ENV=production electron electron.js",
-    "build": "electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64 --version=0.37.3",
+    "build": "electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64 --version=0.37.4",
     "test": "NODE_ENV=test mocha"
   },
   "author": "Damian Baćkowski",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "electron-packager": "^5.2.1",
-    "electron-prebuilt": "^0.37.3",
+    "electron-prebuilt": "^0.37.4",
     "supertest": "^1.1.0"
   }
 }
