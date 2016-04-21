@@ -8,6 +8,10 @@
     "build": "electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64 --version=0.37.5",
     "test": "NODE_ENV=test mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbackowski/BackRSS.git"
+  },
   "author": "Damian Baćkowski",
   "license": "MIT",
   "dependencies": {
