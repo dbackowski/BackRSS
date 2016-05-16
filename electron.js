@@ -95,6 +95,7 @@ if (process.platform !== 'darwin') {
             if (!aboutWindow) {
               aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
                                                 resizable: false, "always-on-top": true });
+              aboutWindow.setMenu(null);
               aboutWindow.loadURL('http://localhost:8080/about.html');
 
               aboutWindow.on('closed', function () {
