@@ -64,14 +64,6 @@ var getFeedData = function (site) {
   }
 };
 
-var initSampleSites = function(site) {
-  db.sites.insert(site, function (err, site) {
-    if (err) {
-      console.log('Error occured during site save');
-    }
-  });
-};
-
 var getFeeds = function () {
   db.sites.find({}, function (err, sites) {
     if (err) {
@@ -122,7 +114,7 @@ app.post('/api/sites', function (req, res) {
     if (err) {
       res.send({ error: err });
     } else {
-      res.send({ data: req.body });
+      res.send({ data: site });
     }
   });
 });

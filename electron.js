@@ -1,9 +1,9 @@
 var backRssApi = require('./api');
-var electron = require('app');
-var BrowserWindow = require('browser-window');
-var shell = require('shell');
-var Menu = require('menu');
-var MenuItem = require('menu-item');
+var electron = require('electron').app;
+var BrowserWindow = require('electron').BrowserWindow;
+var shell = require('electron').Shell;
+var Menu = require('electron').Menu;
+var MenuItem = require('electron').MenuItem;
 
 backRssApi.start();
 
@@ -73,7 +73,7 @@ if (process.platform !== 'darwin') {
             if (!aboutWindow) {
               aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
                                                 resizable: false, "always-on-top": true });
-              aboutWindow.loadUrl('http://localhost:8080/about.html');
+              aboutWindow.loadURL('http://localhost:8080/about.html');
 
               aboutWindow.on('closed', function () {
                 aboutWindow = null;
@@ -159,7 +159,7 @@ if (process.platform !== 'darwin') {
 }
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({ width: 1200, height: 768, "node-integration": false, icon: __dirname + '/public/images/icon.png'});
+  mainWindow = new BrowserWindow({ width: 1200, height: 768, webPreferences: { nodeIntegration: false }, icon: __dirname + '/public/images/icon.png'});
   mainWindow.loadURL('http://localhost:8080');
 
   mainWindow.on('closed', function() {
