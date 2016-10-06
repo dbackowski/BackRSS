@@ -1,11 +1,11 @@
 {
   "name": "BackRSS",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple RSS reader",
   "main": "electron.js",
   "scripts": {
     "start": "NODE_ENV=production electron electron.js",
-    "build": "truncate -s 0 feeds && truncate -s 0 sites && electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64 --version=1.4.0",
+    "build": "truncate -s 0 feeds && truncate -s 0 sites && electron-packager ./ --platform=darwin,linux --overwrite --icon=./public/images/icon --arch=x64",
     "test": "NODE_ENV=test mocha"
   },
   "repository": {
@@ -16,17 +16,17 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.1",
-    "body-parser": "^1.12.2",
-    "express": "^4.12.3",
-    "feedparser": "^1.0.0",
-    "nedb": "^1.1.2",
-    "request": "^2.54.0",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "feedparser": "^1.1.5",
+    "nedb": "^1.8.0",
+    "request": "^2.75.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
-    "electron-packager": "8.0.0",
-    "electron-prebuilt": "1.4.0",
+    "chai": "^3.5.0",
+    "electron-packager": "8.1.0",
+    "electron": "1.4.3",
     "supertest": "^2.0.0"
   }
 }
