@@ -1,6 +1,6 @@
 {
   "name": "BackRSS",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple RSS reader",
   "main": "electron.js",
   "scripts": {

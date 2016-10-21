@@ -7,6 +7,7 @@ var MenuItem = require('electron').MenuItem;
 
 backRssApi.start();
 
+var splashScreenWindow = null;
 var mainWindow = null;
 var aboutWindow = null;
 var menuTemplate = null;
@@ -159,11 +160,18 @@ if (process.platform !== 'darwin') {
 }
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({ width: 1200, height: 768, webPreferences: { nodeIntegration: false }, icon: __dirname + '/public/images/icon.png'});
+  mainWindow = new BrowserWindow({ width: 1200, height: 768, show:false, webPreferences: { nodeIntegration: false }, icon: __dirname + '/public/images/icon.png'});
   mainWindow.loadURL('http://localhost:8080');
 
   mainWindow.on('closed', function() {
     mainWindow = null;
+  });
+
+  mainWindow.on('ready-to-show', function() {
+    if (splashScreenWindow !== null) {
+      splashScreenWindow.close();
+    }
+    mainWindow.show();
   });
 
   menu = Menu.buildFromTemplate(menuTemplate);
@@ -175,7 +183,23 @@ function createMainWindow() {
   });
 }
 
-electron.on('ready', createMainWindow);
+function createSplashScreen() {
+  splashScreenWindow = new BrowserWindow({ width: 400, height: 150, resizable: false, frame: false,
+                                           webPreferences: { nodeIntegration: false, alwaysOnTop: true } });
+  splashScreenWindow.setMenu(null);
+  splashScreenWindow.loadURL('http://localhost:8080/splash.html');
+
+  splashScreenWindow.on('closed', function() {
+    splashScreenWindow = null;
+  });
+}
+
+function initializeApp() {
+  createSplashScreen();
+  createMainWindow();
+}
+
+electron.on('ready', initializeApp);
 
 electron.on('window-all-closed', function() {
   if (process.platform != 'darwin')
