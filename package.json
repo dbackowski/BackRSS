@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "electron-packager": "8.3.0",
-    "electron": "1.4.10",
+    "electron-packager": "8.4.0",
+    "electron": "1.4.12",
     "supertest": "^2.0.1"
   }
 }
