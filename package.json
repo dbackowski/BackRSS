@@ -18,7 +18,7 @@
     "async": "^2.1.4",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "feedparser": "^1.1.5",
+    "feedparser": "^2.0.0",
     "nedb": "^1.8.0",
     "request": "^2.79.0",
     "underscore": "^1.8.3"
@@ -26,7 +26,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "electron-packager": "8.4.0",
-    "electron": "1.4.12",
+    "electron": "1.4.13",
     "supertest": "^2.0.1"
   }
 }
