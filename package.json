@@ -1,6 +1,6 @@
 {
   "name": "BackRSS",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Simple RSS reader",
   "main": "electron.js",
   "scripts": {
@@ -15,18 +15,18 @@
   "author": "Damian Baćkowski",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.1.4",
-    "body-parser": "^1.16.0",
-    "express": "^4.14.1",
+    "async": "^2.1.5",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
     "feedparser": "^2.1.0",
     "nedb": "^1.8.0",
-    "request": "^2.79.0",
+    "request": "^2.81.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "electron-packager": "8.5.1",
-    "electron": "1.4.15",
-    "supertest": "^2.0.1"
+    "electron-packager": "8.5.2",
+    "electron": "1.6.2",
+    "supertest": "^3.0.0"
   }
 }

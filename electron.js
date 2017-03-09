@@ -1,7 +1,7 @@
 var backRssApi = require('./api');
 var electron = require('electron').app;
 var BrowserWindow = require('electron').BrowserWindow;
-var shell = require('electron').Shell;
+var shell = require('electron').shell;
 var Menu = require('electron').Menu;
 var MenuItem = require('electron').MenuItem;
 
