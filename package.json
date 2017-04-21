@@ -1,6 +1,6 @@
 {
   "name": "BackRSS",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple RSS reader",
   "main": "electron.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "feedparser": "^2.1.0",
+    "feedparser": "^2.2.0",
     "nedb": "^1.8.0",
     "request": "^2.81.0",
     "underscore": "^1.8.3"
@@ -26,7 +26,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "electron-packager": "8.6.0",
-    "electron": "1.6.2",
+    "electron": "1.6.5",
     "supertest": "^3.0.0"
   }
 }
