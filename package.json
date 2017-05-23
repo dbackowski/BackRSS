@@ -15,9 +15,9 @@
   "author": "Damian Baćkowski",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.3.0",
-    "body-parser": "^1.17.1",
-    "express": "^4.15.2",
+    "async": "^2.4.1",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
     "feedparser": "^2.2.0",
     "nedb": "^1.8.0",
     "request": "^2.81.0",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "electron-packager": "8.7.0",
-    "electron": "1.6.7",
+    "electron": "1.6.8",
     "supertest": "^3.0.0"
   }
 }
