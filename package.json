@@ -24,9 +24,9 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.0",
     "electron-packager": "8.7.0",
-    "electron": "1.6.8",
+    "electron": "1.6.10",
     "supertest": "^3.0.0"
   }
 }
