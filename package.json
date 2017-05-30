@@ -19,14 +19,16 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "feedparser": "^2.2.0",
+    "global": "^4.3.2",
+    "mocha": "^3.4.2",
     "nedb": "^1.8.0",
     "request": "^2.81.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "electron-packager": "8.7.0",
     "electron": "1.6.10",
+    "electron-packager": "8.7.0",
     "supertest": "^3.0.0"
   }
 }

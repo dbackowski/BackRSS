@@ -4,7 +4,7 @@ node_js:
   - "0.12"
 
 before_script:
-  npm install -g mocha
+  yarn add global mocha
 
 script:
-  npm test
+  yarn test
