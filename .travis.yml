@@ -4,7 +4,7 @@ node_js:
   - "6"
 
 before_script:
-  yarn add global mocha
+  yarn global add mocha
 
 script:
   yarn test
