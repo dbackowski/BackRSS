@@ -89,9 +89,9 @@ async@0.2.10:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
 
-async@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.4.1.tgz#62a56b279c98a11d0987096a01cc3eeb8eb7bbd7"
+async@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
     lodash "^4.14.0"
 
@@ -430,9 +430,9 @@ electron-osx-sign@^0.4.1:
     plist "^2.0.1"
     tempfile "^1.1.1"
 
-electron-packager@^8.7.1:
-  version "8.7.1"
-  resolved "https://registry.yarnpkg.com/electron-packager/-/electron-packager-8.7.1.tgz#22607a44116cb4c1bce72246783990cae4fcf903"
+electron-packager@^8.7.2:
+  version "8.7.2"
+  resolved "https://registry.yarnpkg.com/electron-packager/-/electron-packager-8.7.2.tgz#457d3bf24bc9607c06ad4b1eb6daa4accadc2108"
   dependencies:
     asar "^0.13.0"
     debug "^2.2.0"
@@ -572,9 +572,9 @@ fd-slicer@~1.0.1:
   dependencies:
     pend "~1.2.0"
 
-feedparser@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/feedparser/-/feedparser-2.2.0.tgz#90279e46af711649a2135307085c9377865adcf3"
+feedparser@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/feedparser/-/feedparser-2.2.1.tgz#3f6909b76e531ea876cecfeab320802a1a6d0b92"
   dependencies:
     addressparser "^1.0.1"
     array-indexofobject "~0.0.1"
@@ -583,7 +583,7 @@ feedparser@^2.2.0:
     lodash.has "^4.5.2"
     lodash.uniq "^4.5.0"
     readable-stream "^2.2.2"
-    sax "^1.2.1"
+    sax "1.2.3"
 
 finalhandler@~1.0.3:
   version "1.0.3"
@@ -1556,9 +1556,9 @@ sanitize-filename@^1.6.0:
   dependencies:
     truncate-utf8-bytes "^1.0.0"
 
-sax@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
+sax@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.3.tgz#a6134f5f11259b9a563f2f976bcf759d144803e3"
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0:
   version "5.3.0"
