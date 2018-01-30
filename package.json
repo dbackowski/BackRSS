@@ -20,7 +20,7 @@
     "express": "^4.15.4",
     "feedparser": "^2.2.1",
     "global": "^4.3.2",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.0",
     "nedb": "^1.8.0",
     "request": "^2.81.0",
     "underscore": "^1.8.3"
