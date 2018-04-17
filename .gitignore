@@ -3,3 +3,5 @@ feeds
 sites
 BackRSS-darwin-x64
 BackRSS-linux-x64
+npm-debug.log
+yarn-error.log
