@@ -364,9 +364,9 @@ deep-eql@^3.0.0:
   dependencies:
     type-detect "^4.0.0"
 
-deep-extend@~0.4.0:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f"
+deep-extend@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -442,8 +442,8 @@ electron-osx-sign@^0.4.1:
     plist "^2.1.0"
 
 electron-packager@^12.0.0:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/electron-packager/-/electron-packager-12.0.1.tgz#6634edc00eb98b98d212095fc7623d94b003095f"
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/electron-packager/-/electron-packager-12.0.2.tgz#095ae95aa4bd09930341db23166ea371e814991a"
   dependencies:
     asar "^0.14.0"
     debug "^3.0.0"
@@ -463,9 +463,9 @@ electron-packager@^12.0.0:
     semver "^5.3.0"
     yargs-parser "^10.0.0"
 
-electron@~1.8.2:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.4.tgz#cca8d0e6889f238f55b414ad224f03e03b226a38"
+electron@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-2.0.0.tgz#e95dc7f3a089a52b8c2a52c7c9e1024db0c8d46e"
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^3.0.1"
@@ -1156,8 +1156,8 @@ mksnapshot@^0.3.0:
     request "^2.79.0"
 
 mocha@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.1.0.tgz#5ff11cc39c0bb65330ac6c41f9086634e3e3f686"
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.1.1.tgz#b774c75609dac05eb48f4d9ba1d827b97fde8a7b"
   dependencies:
     browser-stdout "1.3.1"
     commander "2.11.0"
@@ -1426,13 +1426,17 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
-qs@6.5.1, qs@~6.5.1:
+qs@6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
 qs@^6.1.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
+
+qs@~6.5.1:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
 range-parser@~1.2.0:
   version "1.2.0"
@@ -1448,17 +1452,17 @@ raw-body@2.3.2:
     unpipe "1.0.0"
 
 rc@^1.1.2:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.6.tgz#eb18989c6d4f4f162c399f79ddd29f3835568092"
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.7.tgz#8a10ca30d588d00464360372b890d06dacd02297"
   dependencies:
-    deep-extend "~0.4.0"
+    deep-extend "^0.5.1"
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
 rcedit@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-1.0.0.tgz#43309ecbc8814f3582fca6b751748cfad66a16a2"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-1.1.0.tgz#ae21c28d4efdd78e95fcab7309a5dd084920b16a"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -1593,9 +1597,13 @@ rimraf@^2.2.8:
   dependencies:
     glob "^7.0.5"
 
-safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
+
+safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
 
 sanitize-filename@^1.6.0:
   version "1.6.1"
@@ -1891,8 +1899,8 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 underscore@^1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.0.tgz#31dbb314cfcc88f169cd3692d9149d81a00a73e4"
 
 underscore@~1.4.4:
   version "1.4.4"
