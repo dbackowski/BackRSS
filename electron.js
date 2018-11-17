@@ -74,6 +74,8 @@ if (process.platform !== 'darwin') {
             if (!aboutWindow) {
               aboutWindow = new BrowserWindow({ width: 400, height: 120, "node-integration": false, frame: true,
                                                 resizable: false, "always-on-top": true });
+
+              aboutWindow.setMenu(null);
               aboutWindow.loadURL('http://localhost:8080/about.html');
 
               aboutWindow.on('closed', function () {
@@ -160,7 +162,7 @@ if (process.platform !== 'darwin') {
 }
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({ width: 1200, height: 768, show:false, webPreferences: { nodeIntegration: false }, icon: __dirname + '/public/images/icon.png'});
+  mainWindow = new BrowserWindow({ width: 1200, height: 768, show: false, webPreferences: { nodeIntegration: false }, icon: __dirname + '/public/images/icon.png'});
   mainWindow.loadURL('http://localhost:8080');
 
   mainWindow.on('closed', function() {
