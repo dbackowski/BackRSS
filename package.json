@@ -1,6 +1,6 @@
 {
   "name": "BackRSS",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Simple RSS reader",
   "main": "electron.js",
   "scripts": {
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.1",
-    "electron": "~2.0.0",
+    "electron": "~3.0.0",
     "electron-packager": "^12.0.0",
     "supertest": "^3.0.0"
   }
