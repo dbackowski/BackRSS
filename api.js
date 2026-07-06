@@ -34,7 +34,7 @@ var saveFeedData = function(feed) {
       db.feeds.insert(feed, function (err, feed) {
         if (err)
         {
-          console.log('Error occured during feed save');
+          console.log('Error occurred during feed save');
         }
       });
     }
@@ -60,14 +60,14 @@ var getFeedData = function (site) {
         }
       });
   } catch(e) {
-    console.log('Error occured during fetching feed: ' + e);
+    console.log('Error occurred during fetching feed: ' + e);
   }
 };
 
 var getFeeds = function () {
   db.sites.find({}, function (err, sites) {
     if (err) {
-      console.log('Error occured during fetching site list');
+      console.log('Error occurred during fetching site list');
     } else {
       sites.forEach(getFeedData);
     }
